@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://iceke.cc/"/>
-  <updated>2016-11-22T09:11:17.000Z</updated>
+  <updated>2016-11-22T09:27:57.000Z</updated>
   <id>http://iceke.cc/</id>
   
   <author>
@@ -15,11 +15,90 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[谈谈我的偶像周星驰先生]]></title>
+    <link href="http://iceke.cc/2016/11/11/stephen-chow/"/>
+    <id>http://iceke.cc/2016/11/11/stephen-chow/</id>
+    <published>2016-11-11T14:20:00.000Z</published>
+    <updated>2016-11-22T09:27:57.000Z</updated>
+    <content type="html"><![CDATA[<p>我一直认为,在我进入大学后出现了两位我人生中的精神导师,这个词意义说起来挺重大的,但我的确是认真<br>的说出了这句话.他们一位是作家,一位是演员.他们的名字叫做王小波和周星驰.<br>//待更新,看心情</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>我一直认为,在我进入大学后出现了两位我人生中的精神导师,这个词意义说起来挺重大的,但我的确是认真<br>的说出了这句话.他们一位是作家,一位是演员.他们的名字叫做王小波和周星驰.<br>//待更新,看心情</p>
+]]>
+    </summary>
+    
+      <category term="周星驰" scheme="http://iceke.cc/tags/%E5%91%A8%E6%98%9F%E9%A9%B0/"/>
+    
+      <category term="扯淡学" scheme="http://iceke.cc/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[在大菠萝中遇到的一些小问题]]></title>
+    <link href="http://iceke.cc/2016/10/10/diablo/"/>
+    <id>http://iceke.cc/2016/10/10/diablo/</id>
+    <published>2016-10-10T07:20:00.000Z</published>
+    <updated>2016-11-22T09:17:25.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="大菠萝的任务">大菠萝的任务</h2><p>大菠萝全名diablo technology,是一家硬件技术外企.但是我是一名纯软界的小小码农,怎么会帮一个硬件公司做事呢.起初是这家公司中国区的技术人员跟我们组里的陆博大大比较熟,他们想招一两个懂Spark的人帮他们做一些测试和性能上的优化来得出他们研发的新硬件M1相比于市场上普通内存的特性与性能差异.于是陆博建议我担任这份兼职,工作不多而且还可以增一份不错的收入,众所周知,这种事情我是无法拒绝的.</p>
+<p>为了推广M1,他们需要在M1上运行很多工业市场上流行的吃内存的软件与平台,包括spark,mysql,redis等.所以这三个月我就没事帮他们写一点测试的代码,优化spark的配置,寻找运行错误的bug,搭建redis-cluster这种活.期间爬过很多坑,有几个瞬间我感觉到自己是技术顾问,让我小小地膨胀一下.</p>
+<h2 id="C程序的测试">C程序的测试</h2><p>C语言我是有好几年没碰了,作为一个大四以后一直在jvm语言中游走,有时用python写点小项目的人,几乎对指针这种东西处于懵逼模式.</p>
+<p>代码的编写和测试流程我就不详细说了,说说遇到的段错误解决方案.也是这次跑C程序让我有了了解这方面知识的契机.发生了段错误/core dump,总结一下原因,一般是这几个:</p>
+<ul>
+<li>访问了不存在的内存地址</li>
+<li>访问了系统保护的内存地址</li>
+<li>访问了只读的内存地址等等情况</li>
+</ul>
+<p><strong>先用gdb -g -o xx xx.c 生成gdb可调试的文件。</strong>说到gdb调试,大概要知道这几个命令:</p>
+<ol>
+<li><p>gdb xx 进入gdb调试界面</p>
+</li>
+<li><p>b 行数 在第多少行打断点</p>
+</li>
+<li><p>按r进入运行状态</p>
+</li>
+<li><p>n是单步调试</p>
+</li>
+<li><p>s进入函数中调试</p>
+</li>
+<li><p>q是退出</p>
+</li>
+</ol>
+<p>继续说解决core dump的bug, 然后运行程序, ./xx发生段错误后会生成core文件.接着运行命令<strong>gdb xx core.36129</strong>.输入where 会打印出具体的core dump发生在代码中哪个位置，方便定位bug。</p>
+<p>还有一个bug是,每次都在内存地址被free的时候报无效指针,这种情况一般包含以下几个原因:</p>
+<ol>
+<li><p>一个地址被free了两次, 当然这个很容易查出来.</p>
+</li>
+<li><p>free的地址已经不是当时申请内存的起始地址了,注意可能在程序中的一些函数中对其做了一些操作.</p>
+</li>
+</ol>
+<h2 id="Spark-Sql测试框架中踩得坑">Spark-Sql测试框架中踩得坑</h2><p>大菠萝公司的喵叽(算我们的上司大人)想在机器上测试Spark Sql在M1上跑的性能，让我调研下Spark-sql-perf这个已有的测试框架<a href="https://github.com/databricks/spark-sql-perf" target="_blank" rel="external">(项目地址)</a>。看了一下框架代码，差不多就是写了很多sql语句封装成一个个benchmark对象然后有一个多线程模式，然后一起开测。首先，在大菠萝的机器上部署测试框架，然后写一个简单的测试程序。代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">object SqlTest extends Serializable&#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val sparkConf  = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"test"</span>)</span><br><span class="line">    .setMaster(<span class="string">"local"</span>)</span><br><span class="line">    val sc = <span class="keyword">new</span> SparkContext(sparkConf)</span><br><span class="line">    val sqlContext = <span class="keyword">new</span> org.apache.spark.sql.SQLContext(sc)</span><br><span class="line">   val tables = <span class="keyword">new</span> Tables(sqlContext, <span class="string">"/Users/iceke/projects/tpcds-kit/tools"</span>, </span><br><span class="line">   Integer.parseInt(<span class="string">"1"</span>))</span><br><span class="line">    tables.genData(<span class="string">"data"</span>,<span class="string">"parquet"</span>,<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>)</span><br><span class="line">    val tableNames = Array(<span class="string">"call_center"</span>, <span class="string">"catalog_page"</span>,  <span class="string">"catalog_returns"</span>, <span class="string">"catalog_sales"</span>,</span><br><span class="line">      <span class="string">"customer"</span>, <span class="string">"customer_address"</span>,  <span class="string">"customer_demographics"</span>, <span class="string">"date_dim"</span>,</span><br><span class="line">      <span class="string">"household_demographics"</span>, <span class="string">"income_band"</span>,   <span class="string">"inventory"</span>, <span class="string">"item"</span>, <span class="string">"promotion"</span>,</span><br><span class="line">      <span class="string">"reason"</span>, <span class="string">"ship_mode"</span>,  <span class="string">"store"</span>, <span class="string">"store_returns"</span>,  <span class="string">"store_sales"</span>, <span class="string">"time_dim"</span>,</span><br><span class="line">      <span class="string">"warehouse"</span>, <span class="string">"web_page"</span>,   <span class="string">"web_returns"</span>, <span class="string">"web_sales"</span>, <span class="string">"web_site"</span>)</span><br><span class="line">    <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to tableNames.length - <span class="number">1</span>) &#123;</span><br><span class="line">      val a = sqlContext.read.parquet(<span class="string">"data"</span> + <span class="string">"/"</span> + tableNames&#123;i&#125;)</span><br><span class="line">     <span class="comment">// sc.broadcast(a)</span></span><br><span class="line">      a.registerTempTable(tableNames&#123;i&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    val tpcds = <span class="keyword">new</span> TPCDS (sqlContext = sqlContext)</span><br><span class="line">    val experiment = tpcds.runExperiment(tpcds.tpcds1_4Queries, iterations = <span class="number">1</span>,forkThread=<span class="keyword">false</span>)</span><br><span class="line">    experiment.waitForFinish(<span class="number">60</span>*<span class="number">60</span>*<span class="number">10</span>)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>先生成数据，大概几十张表。然后加载这几十张表，进行benchmark实验。本来过程很简单，但是需求是无止境的，喵叽说试试把所有的表cache到内存中，这样进行查询时快一点，听上去非常简单，在注册后加上一行cache表的代码就可以了。部分代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> val a = sqlContext.read.parquet(<span class="string">"data"</span> + <span class="string">"/"</span> + tableNames&#123;i&#125;)</span><br><span class="line"><span class="comment">// sc.broadcast(a)</span></span><br><span class="line"> a.registerTempTable(tableNames&#123;i&#125;)</span><br><span class="line"> sqlContext.cacheTable(tableNames&#123;i&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>我在mac上用local模式测了一下ok便提交给喵叽。</p>
+<p>事情永远不会像想象的那么顺利，喵叽在集群上一测，就通过了几个benchmark，然后大量的stage报错，全部都是failed to get broadcast(TorrentBroadcast)异常，然后stage 直接失败，查看executor的日志发现已经有的broacast被remove了，但是接下来的加个task又会去获取这些broadcast，便会直接失败。这明显是不符合逻辑的，明明cache了所有表，靠异常堆栈信息并不好定位到错误的地方。我看了spark主页发现storage页面cache的RDD过一段时间就会消失，这也是一个重要的线索。</p>
+<p>测试了半天还是出错，我开始静下心慢慢跟着框架的代码走，我发现最后每一个线程都会执行一个doBenchmark方法，<br>方法里面最后执行完查询操作之后会做一些善后处理。相关代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> def <span class="title">benchmark</span><span class="params">(</span><br><span class="line">    includeBreakdown: Boolean,</span><br><span class="line">    description: String = <span class="string">""</span>,</span><br><span class="line">    messages: ArrayBuffer[String],</span><br><span class="line">    timeout: Long,</span><br><span class="line">    forkThread: Boolean = <span class="keyword">true</span>)</span>: BenchmarkResult </span>= &#123;</span><br><span class="line">  logger.info(s<span class="string">"$this: benchmark"</span>)</span><br><span class="line">  sparkContext.setJobDescription(s<span class="string">"Execution: $name, $description"</span>)</span><br><span class="line">  beforeBenchmark()</span><br><span class="line">  val result = <span class="keyword">if</span> (forkThread) &#123;</span><br><span class="line">    runBenchmarkForked(includeBreakdown, description, messages, timeout)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    doBenchmark(includeBreakdown, description, messages)</span><br><span class="line">  &#125;</span><br><span class="line">  println(<span class="string">"!!!!!!!!!!!!!!!!after Bench"</span>)</span><br><span class="line">  afterBenchmark(sqlContext.sparkContext)</span><br><span class="line">  result</span><br></pre></td></tr></table></figure></p>
+<p>这个善后处理是afterBenchmark方法，方法代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">afterBenchmark</span><span class="params">(sc: SparkContext)</span>: Unit </span>= &#123;</span><br><span class="line">  <span class="comment">// Best-effort clean up of weakly referenced RDDs, shuffles, and broadcasts</span></span><br><span class="line">  System.gc()</span><br><span class="line">  <span class="comment">// Remove any leftover blocks that still exist</span></span><br><span class="line">  sc.getExecutorStorageStatus</span><br><span class="line">      .flatMap &#123; status =&gt; status.blocks.map &#123; <span class="keyword">case</span> (bid, _) =&gt; bid &#125; &#125;</span><br><span class="line">      .foreach &#123; bid =&gt; SparkEnv.get.blockManager.master.removeBlock(bid) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>它会对每个相关block的id进行移除，无论它是否做了cache。所以解决方法是注释掉afterBenchmark方法，与上次堆外内存的bug一样，发现bug的过程是痛苦的，解决方案是简单到发指的,让人痛苦,又让人快乐.</p>
+<p>所以说，别人的框架不是万能的，虽然你操作起来更便捷，但你必须遵守它制定的那一些规则，有些规则是操蛋的，当你使用它时，如果一直被操蛋的bug所围困，就需要看看它的源码看看是否有问题，或者与你的策略存在偶然性的冲突。</p>
+<p><strong>最后, 我的梦想是成为规则的制定者.</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="大菠萝的任务">大菠萝的任务</h2><p>大菠萝全名diablo technology,是一家硬件技术外企.但是我是一名纯软界的小小码农,怎么会帮一个硬件公司做事呢.起初是这家公司中国区的技术人员跟我们组里的陆博大大比较熟,他们想招一两个懂Spark的人帮他们做]]>
+    </summary>
+    
+      <category term="C语言" scheme="http://iceke.cc/tags/C%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="bug" scheme="http://iceke.cc/tags/bug/"/>
+    
+      <category term="内存" scheme="http://iceke.cc/tags/%E5%86%85%E5%AD%98/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[修改Spark内核(Deca)所产生的两个奇怪bug]]></title>
     <link href="http://iceke.cc/2016/09/28/spark-bug/"/>
     <id>http://iceke.cc/2016/09/28/spark-bug/</id>
     <published>2016-09-28T07:39:47.000Z</published>
-    <updated>2016-11-22T09:11:17.000Z</updated>
+    <updated>2016-11-22T09:12:47.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Spark将数据放在jvm堆外导致无故卡死">Spark将数据放在jvm堆外导致无故卡死</h2><h3 id="思路实现与问题产生">思路实现与问题产生</h3><p>我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: </p>
 <pre><code><span class="number">1.</span>完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 <span class="number">2.</span>手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用的代码进行改造;
@@ -50,6 +129,59 @@
       <category term="bug" scheme="http://iceke.cc/tags/bug/"/>
     
       <category term="spark" scheme="http://iceke.cc/tags/spark/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[论思想同化的艺术]]></title>
+    <link href="http://iceke.cc/2016/09/11/assimilation/"/>
+    <id>http://iceke.cc/2016/09/11/assimilation/</id>
+    <published>2016-09-11T12:20:00.000Z</published>
+    <updated>2016-11-22T09:22:10.000Z</updated>
+    <content type="html"><![CDATA[<p>看过一段访谈,一个摇滚乐队主唱的访谈,这个人叫邓斐,乐队名字叫寂寞.夏.日.曾经有一段时间疯狂地听他们的歌.<br>他谈到他们的歌《这个易同化的民族》时说道:</p>
+<pre><code><span class="string">"我们正在被对权力的卑躬屈膝同化,正在被对文化和艺术弱智的认知同化,我们拿来从不消化甚至不知何物就充当自己,</span>
+我们做事不认真不努力随后从不自我反省反而学会相互制约和压制欺骗,我们正在被机会主义同化从无察觉...<span class="string">"</span>
+</code></pre><p>他想批判的很多,在其歌词中也可见一斑,他在我眼中算得上摇滚界的当代杜甫.这里要说到摇滚是什么,窦唯曾经说过:<br>对于摇滚没有必要给它做个定义,它一定是有感而发的,自由的,自然的,不拘一格的。摇滚可以不批判,但如果完全屈服于市场,<br>那它就是商品,有确定的价格,而没有其内在可挖掘的价值.有点岔开话题,这段访谈的我不全认同,毕竟我不是机器,<br>再说机器也有一个处理单元,会将输入的东西进行转化一下或稍作处理进行输出,哪怕一个简单的函数也是这样.</p>
+<p>互联网大潮将人们的言论冲散在各个地方,随处可见.其中我们不妨将一个观点看做一个岛屿,你只看到有的岛屿上人多,有的人少.<br>有的人们会跟随某个具有代表性的人去向某个岛,也有的会搭着小船一下到这个岛,一下空降到另一个岛.这种情景我是不希望看到的,<br>作为一个人,一个个体,他有自己的处理单元,他应该做到可以独立思考,而不是跟随着舆论的大潮漂来漂去,你应该在某个合理的范围内<br>坚守自己的观点,将这个岛屿看做你的一个暂时家园,请不要轻易放弃它.</p>
+<p>哦对了,观点的表达来自话语,话语不能表达一个观点的全部.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>看过一段访谈,一个摇滚乐队主唱的访谈,这个人叫邓斐,乐队名字叫寂寞.夏.日.曾经有一段时间疯狂地听他们的歌.<br>他谈到他们的歌《这个易同化的民族》时说道:</p>
+<pre><code><span class="string">"我们正在被对权力的卑躬屈膝同化,正在被对]]>
+    </summary>
+    
+      <category term="假装在思考" scheme="http://iceke.cc/tags/%E5%81%87%E8%A3%85%E5%9C%A8%E6%80%9D%E8%80%83/"/>
+    
+      <category term="扯淡学" scheme="http://iceke.cc/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[借天池中间件复赛谈NIO]]></title>
+    <link href="http://iceke.cc/2016/08/15/tianchi-nio/"/>
+    <id>http://iceke.cc/2016/08/15/tianchi-nio/</id>
+    <published>2016-08-15T12:20:00.000Z</published>
+    <updated>2016-11-22T09:28:08.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="比赛的简单总结">比赛的简单总结</h2><p>参加天池是被裴师兄安利的,这个很重要.在我眼中,裴博代码一直是写得飞起的那种,就是一边用B站放着billboard榜单,一边在那啪啪啪敲着代码,这看起来绝对很酷.所以我内心是崇拜他的,至少在技术上,他很刻苦,表现在很多方面.在此不一一赘述,因为我并不想在这开表彰会.他告诉我参加这个比赛会收获很多,我当然无条件相信,他当时参加的是机器学习相关的比赛.上半年正好有一场预测音乐播放量的比赛,我便屁颠颠地参加,对机器学习一窍不通,于是便慢慢学,特征,建立模型,训练.耗时一个半月,纯模型效果并不好,于是加了一些规则,后来还用了股票里经常遇到的时序模型,嗯,挺高大上的.这个比赛的确学习了很多,但总感觉浮于表面,略显浮夸,写代码也不是很多,更多的参赛选手都是搞机器学习和数学统计的,我并不在行.</p>
+<p>这时候一个新比赛来华科路演,跑过去听了一听,意料之中,没什么太大收获,但是这个比赛引起了我极大的兴趣.首先它涉及系统设计,代码量跟机器学习类的比赛肯定不是一个级别,初赛和复赛考察内容很不一样.我觉得这种比赛还是很有趣的,但可能比较累,因为代码一多,因此而诞生的bug也会多起来,这点不太像机器学习的比赛,大部分时间是在等待和思考策略,动手的时间并不多.</p>
+<p>中间件比赛分为初赛和复赛.初赛是实现一个实时统计双十一交易数据的系统,用到了三个组件jstorm,rocketmq和tair.都是阿里自家的产品,但都可以在原先的开源平台中找到原型,分别是storm,rabbitmq和redis.用法和api也大同小异,这个题目考察的主要还是熟悉这三个系统的使用,基本程序能正常运行跑出结果就能进前100了,如果想要跑到更好的成绩就需要想到更好的缓存策略.但你又不能把所有数据常驻内存,这样程序就会挂掉,而且这也不符合流计算的思想,流计算就应该是将数据想象成一段水流(不免让人想起破坏之王里的断水流大师兄),只不过水流会途径一些地方经过加工,如果水流囤积,那必然引起溃堤等风险.我的基本策略是jstorm的bolt主线程处理数据并统计,再开一个独立的线程用于数据的同步然后发送到下一个bolt.对我来说jstorm和storm最不同的一点就是:jstorm的Spout nextTuple和ack/fail运行在不同线程,这样可以防止CPU空转.storm的bolt和spout组件构成一个topology,一个设计优雅的拓扑图也是可以大大提高程序性能的.</p>
+<p>关于复赛,设计一个订单查询系统,不在现有的开源平台上写应用,而是纯用java标准库,这个代码量可想而知.但后来赛方说可以用一些简单的轮子,比如基于磁盘的map,或者B+树什么的,纯用别人的开源数据库肯定是不行的.但比赛核心并不是这个,如果是这样功能大家都可以做出来,最重要的还是策略和优化.起先在github上找基于磁盘的B+树轮子,找了半天找到一个外国小伙写得轮子,很简洁.拿来一用,发现一个bug还有些许缺陷,后来还提交了commit给他,他也很客气merge了,不小的成就感,不得不说.</p>
+<p>简单说一下程序策略:</p>
+<ul>
+<li>构造：采用多线程分别对各个订单文件建立索引，索引内容为记录在文中的偏移量和该记录长度的结合体,起初先合并所有的订单文件再建立索引，后来发现合并与否对查询速度没有太大影响，由于没有进行多次测试，这个结论可能不成立。建立索引的方式起初是一部分B+树，一部分采用基于磁盘的map，后期由于B+树建立索引较慢，经常一小时内不能建完，后期全部改为基于disk的map。比赛后期性能改进包括将卖家和商品信息的索引全部放置在内存中，因为这两部分信息的索引大小之和并不大；将卖家与商品信息出现的字段缓存起来，若后期查询中字段不在其中，则省略了部分查询的步骤。</li>
+<li>查询：针对每个索引上层封装为一个DB，其中包含多个table对象，对应各个小索引文件。在构造索引期间对每个原记录文件和索引文件分别映射为一个MappedByteBuffer对象，有的记录长度大于int最大值，对这种文件进行分段映射多个mappedbytebuffer对象，具体查询请求时，在bytebuffer中读取信息。查询支持完全并发，但是由于每个索引文件都对应了一个table所以查询时需要遍历所有table最后返回结果，这种策略较为愚蠢。</li>
+</ul>
+<h2 id="关于NIO">关于NIO</h2><p>这次比赛算是很好的一次理解和使用NIO的机会,借这次简单一下介绍下这方面.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="比赛的简单总结">比赛的简单总结</h2><p>参加天池是被裴师兄安利的,这个很重要.在我眼中,裴博代码一直是写得飞起的那种,就是一边用B站放着billboard榜单,一边在那啪啪啪敲着代码,这看起来绝对很酷.所以我内心是崇拜他的,至少在技术上,他很刻苦,表现在很]]>
+    </summary>
+    
+      <category term="NIO" scheme="http://iceke.cc/tags/NIO/"/>
+    
+      <category term="java" scheme="http://iceke.cc/tags/java/"/>
+    
+      <category term="天池" scheme="http://iceke.cc/tags/%E5%A4%A9%E6%B1%A0/"/>
     
   </entry>
   
