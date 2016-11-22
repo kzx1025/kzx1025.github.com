@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="假装在思考," />
+  <meta name="keywords" content="bug,spark," />
 
 
 
@@ -41,17 +41,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper">
+<meta name="description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生   我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://iceke.cc/2015/10/14/hello-world/index.html">
+<meta property="og:title" content="修改Spark内核(Deca)所产生的两个奇怪bug">
+<meta property="og:url" content="http://iceke.cc/2016/09/28/spark-bug/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper">
-<meta property="og:image" content="http://iceke.cc/img/zxc1.jpg">
-<meta property="og:updated_time" content="2015-10-14T12:59:53.000Z">
+<meta property="og:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生   我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应">
+<meta property="og:image" content="http://iceke.cc/../img/1.png">
+<meta property="og:image" content="http://iceke.cc/../img/2.png">
+<meta property="og:updated_time" content="2016-11-22T03:47:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper">
+<meta name="twitter:title" content="修改Spark内核(Deca)所产生的两个奇怪bug">
+<meta name="twitter:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生   我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -61,7 +62,7 @@
   };
 </script>
 
-  <title> Hello World | IceKe Blog </title>
+  <title> 修改Spark内核(Deca)所产生的两个奇怪bug | IceKe Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -199,7 +200,7 @@
           
           
             
-              Hello World
+              修改Spark内核(Deca)所产生的两个奇怪bug
             
           
         </h1>
@@ -208,8 +209,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-10-14T17:46:25+08:00" content="2015-10-14">
-            2015-10-14
+          <time itemprop="dateCreated" datetime="2016-09-28T17:46:25+08:00" content="2016-09-28">
+            2016-09-28
           </time>
         </span>
 
@@ -219,8 +220,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/10/14/hello-world/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/14/hello-world/" itemprop="commentsCount"></span>
+              <a href="/2016/09/28/spark-bug/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/28/spark-bug/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -234,16 +235,23 @@
       
 
       
-        <span itemprop="articleBody"><blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque hendrerit lacus ut purus iaculis feugiat. Sed nec tempor elit, quis aliquam neque. Curabitur sed diam eget dolor fermentum semper at eu lorem.</p>
-</blockquote>
-<blockquote>
-<p>另一种引用方式</p>
-</blockquote>
-<hr>
-<h3 id="链接测试">链接测试</h3><p><a href="www.baidu.com">baidu</a></p>
-<h3 id="图片测试">图片测试</h3><p><img src="/img/zxc1.jpg" alt=""></p>
-<h3 id="代码测试">代码测试</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">alert(<span class="string">'Hello World!'</span>);</span><br><span class="line"><span class="string">index_generator:</span></span><br><span class="line"><span class="label">  per_page:</span> <span class="number">5</span></span><br><span class="line"><span class="label"></span><br><span class="line">archive_generator:</span></span><br><span class="line"><span class="label">  per_page:</span> <span class="number">20</span></span><br><span class="line"><span class="label">  yearly:</span> <span class="literal">true</span></span><br><span class="line"><span class="label">  monthly:</span> <span class="literal">true</span></span><br><span class="line"><span class="label"></span><br><span class="line">tag_generator:</span></span><br><span class="line"><span class="label">  per_page:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<h3 id="最后">最后</h3><p>越长大，越难总结自己</p>
+        <span itemprop="articleBody"><h1 id="Spark将数据放在jvm堆外导致无故卡死">Spark将数据放在jvm堆外导致无故卡死</h1><h3 id="思路实现与问题产生">思路实现与问题产生</h3><p>   我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,<br>因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;2.手写<br>了Deca的手动版的代码,就是利用Deca的思想对Spark应用的代码进行改造;3.进行了大量的测试并统计GC时间,stage时间等相关数据.<br>其实Deca系统的核心思想就是将原有的java大对象转化为字节数组有序地放置在jvm中,这样一可以减少对内存的使用,也可以基本避免所有的GC.<br>附上论文<a href="https://arxiv.org/pdf/1602.01959v3.pdf" target="_blank" rel="external">Deca论文地址</a></p>
+<p>  老板的top中了之后,当然会将它扩展扩展然后投期刊,这是基本套路.要求扩展30%,其中就包括<br>将之前的手动版的数据放置在堆外,还是以字节数组的形式来和堆内版本进行比较,理论上来说<br>堆外版本肯定性能是比堆内好的,毕竟放置在堆外可以完全逃避GC的控制,也更加符合Deca的思想.</p>
+<p>  代码实现并不难,基本由Unsafe这个类操作完成.大概思路就是将Spark应用中需要缓存的RDD<br>其中的partition的对象用字节数组的形式写在堆外,读的时候再直接按照偏移量读取,贴上部<br>分代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UnsafePR._</span><br><span class="line"><span class="keyword">private</span> val baseAddress = UNSAFE.allocateMemory(size)</span><br><span class="line"><span class="keyword">private</span> var curAddress = baseAddress</span><br><span class="line">def address = baseAddress</span><br><span class="line">def free:Unit=&#123;</span><br><span class="line">  UNSAFE.freeMemory(baseAddress)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">def <span class="title">writeInt</span><span class="params">(num:Int)</span>:Unit</span>=&#123;</span><br><span class="line">  UNSAFE.putInt(curAddress,num)</span><br><span class="line">  curAddress += <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/zx247549135/DecaApplication/blob/master/src/main/scala-2.10/decaApp/UnsafePR.scala" target="_blank" rel="external">完整的Deca手动版PageRank代码地址</a></p>
+<p>起先在本机的local模式测试了堆外版LR和PageRank应用当然是没问题的,结果也是正确的.然后<br>转移到服务器集群上进行测试.令人惊喜的是,一个神奇的bug出现了.</p>
+<h3 id="Bug的特征">Bug的特征</h3><p>此Bug是本人coding以来见识到的算的上奇怪的一个bug了,它有以下几个特征.首先LR的堆外版本<br>集群测试是没有问题的,但是切换到PageRank的堆外版本来测试时,总是在ZipPartition这个stage最后几个<br>task执行的时候jvm crash掉,这个job就直接卡死了,必须手动杀掉才能停止.executor异常日志:<br><img src="../img/1.png" alt="executor异常日志"></p>
+<p>stage卡住图示:<br><img src="../img/2.png" alt="stage卡住"></p>
+<p>而且还有一个特殊的症状:就是PR跑2G数据量的时候居然不会挂掉,一到7G和20G的时候就会挂掉.<br>而且local模式不会出错,一个executor也不会出错,一旦增加到多个executor就会出错.</p>
+<h3 id="Bug原因分析与结论">Bug原因分析与结论</h3><p>一开始想到的原因是shuffle的问题,因为local和单个executor不会出错,一旦涉及到网络传输就会报错.<br>我怀疑是不是序列化方式的问题,分别用kryo和java自带的序列化方式测试了一下,然而都会报错.<br>后来想了想应该不是网络传输的问题,不然小数据量怎么可以通过.我上网查了一下jvm crash那段报错信息,<br>基本都是由于Unsafe访问到非法位置的原因,于是开始往这个方向考虑.</p>
+<p>最后与师兄讨论中意识到问题的关键所在,首先Spark一个executor执行task比较慢时,如果另一个executor执行完一个stage的所有task时,会将剩余<br>的task调度到那个节点去执行,也就是non-local task.non-local task是从网络传输过去的,这部分task是由cache RDD<br>的partition生成而来的,这部分task是从block manager过去的,然而partition中的UnsafeEdge对象中只有一个Unsafe成员变量,<br>一个初始地址和终点地址,和分配在jvm堆内的对象不同,并不携带真正的数据.所以这个task被调度到其他executor时,自然<br>会非法访问堆外内存,然后jvm crash掉,这也可以解释为什么stage中位置为Any的task都不能成功执行这个现象.<br>至于2G的数据量为什么可以通过,因为task运行的时间很短,几乎不需要调度就可以在一个executor中全部完成.</p>
+<p>所以解决方案就是尽量不让task调度到其他的executor上执行,可以尽量增大spark.locality.wait这个变量来<br>避免出错.</p>
+<h1 id="硕大的cache数据">硕大的cache数据</h1><pre><code>这个就简洁地介绍一下了,这是我大概<span class="number">11</span>月<span class="number">10</span>号遇见的
+</code></pre><h3 id="背景">背景</h3><p>关于shuffle的VST拆解部分需要加到论文修改中,不过在意外中我发现了之前Deca release1.0版本的一个bug.<br>那就是由于Deca将cache数据的对象完全转化为字节数组存储在jvm中,但是吊诡的现象在于Deca cache的数据居然比<br>原生Spark的还大,这明显是不合理的.初看了一下代码发现是没有问题的.于是联系已经毕业的裴师兄,他说他之前就遇到这个问题了,<br>只不过一直没改.这应该就是传说中的前人挖坑,后人填坑.但我同时也是很兴奋的,因为我们之前手动版本的实验结果很合理,<br>改动Spark内核的自动版本也是同样地思路和流程,但是却出现了这种奇怪的现象,你知道解决bug是一个很能产生成就感的一个举措.<br>在SparkContext将cache的RDD的迭代器做了一次调整,生成一个新的RDD并cache,然后将原本cache的RDD释放掉,重新调整一下RDD链,<br>这样缓存的RDD将会被我们生成的RDD替换掉.之前对缓存的RDD所做的操作是:将里面返回KV对的迭代器改写一下,变换成往一个字节数组<br>缓冲区写字节数组(按顺序写),然后返回新的迭代器.</p>
+<h3 id="修复">修复</h3><p>后来发现之前返回的迭代器基本单位还是一个个KV对,这样就算是按字节数组写了也还是和Spark Cache的数据占用着差不多的大小,<br>于是很简单啦,这里我将一块字节数组区称为CacheChunk,事实上它的类名也是这个.生成CacheChunk后,用Iterator包装一下便返回.<br>跑了一下local模式,结果可想而知,抛出血红色的异常,我用的Idea,不知道其他的编辑器是不是这样.众所周知,Spark的每一个stage的结束要么是<br>ShuffleTask,要么是ResultTask.ShuffleTask需要落磁盘,往block写点什么,这时候出发真正的RDD计算,就是调用RDD的迭代器.<br>当然这里有个判断,如果某个RDD被定义了persist,第一次计算时会将它的计算结果常驻在内存中再返回迭代器,这样下一个stage用到此RDD时<br>便直接在内存中获取,无需计算.管理这个流程的是一个叫CacheManager的哥们,我们之前返回的迭代器是一个iterator,iterator里包含着CacheChunk,<br>CacheChunk里面又有一个迭代器方法,所以CacheManager肯定识别不了了呗.方便,给这个变换的CacheRDD加一个标签变量,切勿不要给它trasient这个标识,<br>它需要被序列化.如果是Deca的RDD便让CacheManager多一个步骤,获取迭代器之后,强制转换为CacheChunk,再取一次迭代器,这样就能获取真正的数据.<br>好,测试通过,perfect.自信地放到集群中去测试,令人”欣慰”的是,cache的数据反而更巨大!</p>
+<p>后来怎么办呢,研究CacheManager下面的代码,继续调试往里面跟着走,我只想感叹一句,真的很深…就连一个普通的HashMap Spark都会根据<br>自己的需求改.最后发现RDD的大小的评估是一个SizeEstimator的类实现的,部分功能代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">visitSingleObject</span><span class="params">(obj: AnyRef, state: SearchState)</span> </span>&#123;</span><br><span class="line">  val cls = obj.<span class="function">getClass</span><br><span class="line">  <span class="title">if</span> <span class="params">(cls.isArray)</span> </span>&#123;</span><br><span class="line">    visitArray(obj, cls, state)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (obj.isInstanceOf[ClassLoader] || obj.isInstanceOf[Class[_]]) &#123;</span><br><span class="line">    <span class="comment">// Hadoop JobConfs created in the interpreter have a ClassLoader, which greatly confuses</span></span><br><span class="line">    <span class="comment">// the size estimator since it references the whole REPL. Do nothing in this case. In</span></span><br><span class="line">    <span class="comment">// general all ClassLoaders and Classes will be shared between objects anyway.</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    val classInfo = getClassInfo(cls)</span><br><span class="line">    state.size += alignSize(classInfo.shellSize)</span><br><span class="line">    <span class="keyword">for</span> (field &lt;- classInfo.pointerFields) &#123;</span><br><span class="line">      state.enqueue(field.get(obj))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>大概思路就是判断对象类型,原生类型直接算,数组就累加算.如果不是原生类型,继续将里面的成员变量入栈,递归调用此函数.<br>当我调试到这儿看调试信息的时候,发现一共访问了有一千多个成员变量,明显不合理.后来发现,CacheChunk里有个Spark定制的IterupptedIterator,<br>这里面带出一批Spark相关的变量,导致评估大小大了整整十几倍.可是CacheChunk是可以不需要这个iterator的,于是将它换了个地方.<br>重新测试,终于okay.流下了喜悦的眼泪,想高歌一曲,想起在实验室便作罢.</p>
+<p>之后还遇到CacheChunk自动扩增容量的问题,不过解决起来比较简单,就不在此描述.</p>
 </span>
       
     </div>
@@ -252,7 +260,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/假装在思考/" rel="tag">#假装在思考</a>
+            <a href="/tags/bug/" rel="tag">#bug</a>
+          
+            <a href="/tags/spark/" rel="tag">#spark</a>
           
         </div>
       
@@ -261,11 +271,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/14/Some-Pictures/" rel="prev">Some Pictures</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/14/Some-Pictures/" rel="next">Some Pictures</a>
             
           </div>
         </div>
@@ -280,10 +290,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2015/10/14/hello-world/"
-     data-title="Hello World"
+        <div class="ds-share flat" data-thread-key="2016/09/28/spark-bug/"
+     data-title="修改Spark内核(Deca)所产生的两个奇怪bug"
      data-content=""
-     data-url="http://iceke.cc/2015/10/14/hello-world/">
+     data-url="http://iceke.cc/2016/09/28/spark-bug/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -309,8 +319,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/10/14/hello-world/"
-                   data-title="Hello World" data-url="http://iceke.cc/2015/10/14/hello-world/">
+              <div class="ds-thread" data-thread-key="2016/09/28/spark-bug/"
+                   data-title="修改Spark内核(Deca)所产生的两个奇怪bug" data-url="http://iceke.cc/2016/09/28/spark-bug/">
               </div>
             
           </div>
@@ -364,7 +374,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -416,7 +426,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#链接测试"><span class="nav-number">1.</span> <span class="nav-text">链接测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片测试"><span class="nav-number">2.</span> <span class="nav-text">图片测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码测试"><span class="nav-number">3.</span> <span class="nav-text">代码测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后"><span class="nav-number">4.</span> <span class="nav-text">最后</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark将数据放在jvm堆外导致无故卡死"><span class="nav-number">1.</span> <span class="nav-text">Spark将数据放在jvm堆外导致无故卡死</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#思路实现与问题产生"><span class="nav-number">1.0.1.</span> <span class="nav-text">思路实现与问题产生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bug的特征"><span class="nav-number">1.0.2.</span> <span class="nav-text">Bug的特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bug原因分析与结论"><span class="nav-number">1.0.3.</span> <span class="nav-text">Bug原因分析与结论</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕大的cache数据"><span class="nav-number">2.</span> <span class="nav-text">硕大的cache数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">2.0.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修复"><span class="nav-number">2.0.2.</span> <span class="nav-text">修复</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
