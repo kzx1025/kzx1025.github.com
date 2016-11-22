@@ -51,9 +51,9 @@
 <meta property="og:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用">
-<meta property="og:image" content="http://iceke.cc/source/img/1.png">
-<meta property="og:image" content="http://iceke.cc/source/img2.png">
-<meta property="og:updated_time" content="2016-11-22T09:04:28.000Z">
+<meta property="og:image" content="http://iceke.cc/img/1.png">
+<meta property="og:image" content="http://iceke.cc/img2.png">
+<meta property="og:updated_time" content="2016-11-22T09:06:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="修改Spark内核(Deca)所产生的两个奇怪bug">
 <meta name="twitter:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
@@ -250,8 +250,8 @@
 <p>代码实现并不难,基本由Unsafe这个类操作完成.大概思路就是将Spark应用中需要缓存的RDD其中的partition的对象用字节数组的形式写在堆外,读的时候再直接按照偏移量读取,贴上部<br>分代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UnsafePR._</span><br><span class="line"><span class="keyword">private</span> val baseAddress = UNSAFE.allocateMemory(size)</span><br><span class="line"><span class="keyword">private</span> var curAddress = baseAddress</span><br><span class="line">def address = baseAddress</span><br><span class="line">def free:Unit=&#123;</span><br><span class="line">  UNSAFE.freeMemory(baseAddress)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">def <span class="title">writeInt</span><span class="params">(num:Int)</span>:Unit</span>=&#123;</span><br><span class="line">  UNSAFE.putInt(curAddress,num)</span><br><span class="line">  curAddress += <span class="number">4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p><a href="https://github.com/zx247549135/DecaApplication/blob/master/src/main/scala-2.10/decaApp/UnsafePR.scala" target="_blank" rel="external">完整的Deca手动版PageRank代码地址</a></p>
 <p>起先在本机的local模式测试了堆外版LR和PageRank应用当然是没问题的,结果也是正确的.然后转移到服务器集群上进行测试.令人惊喜的是,一个神奇的bug出现了.</p>
-<h3 id="Bug的特征">Bug的特征</h3><p>此Bug是本人coding以来见识到的算的上奇怪的一个bug了,它有以下几个特征.首先LR的堆外版本集群测试是没有问题的,但是切换到PageRank的堆外版本来测试时,总是在ZipPartition这个stage最后几个task执行的时候jvm crash掉,这个job就直接卡死了,必须手动杀掉才能停止.executor异常日志:<br><img src="/source/img/1.png" alt="executor异常日志"></p>
-<p>stage卡住图示:<br><img src="/source/img2.png" alt="stage卡住"></p>
+<h3 id="Bug的特征">Bug的特征</h3><p>此Bug是本人coding以来见识到的算的上奇怪的一个bug了,它有以下几个特征.首先LR的堆外版本集群测试是没有问题的,但是切换到PageRank的堆外版本来测试时,总是在ZipPartition这个stage最后几个task执行的时候jvm crash掉,这个job就直接卡死了,必须手动杀掉才能停止.executor异常日志:<br><img src="/img/1.png" alt="executor异常日志"></p>
+<p>stage卡住图示:<br><img src="/img2.png" alt="stage卡住"></p>
 <p>而且还有一个特殊的症状:就是PR跑2G数据量的时候居然不会挂掉,一到7G和20G的时候就会挂掉.而且local模式不会出错,一个executor也不会出错,一旦增加到多个executor就会出错.</p>
 <h3 id="Bug原因分析与结论">Bug原因分析与结论</h3><p>一开始想到的原因是shuffle的问题,因为local和单个executor不会出错,一旦涉及到网络传输就会报错.我怀疑是不是序列化方式的问题,分别用kryo和java自带的序列化方式测试了一下,然而都会报错.后来想了想应该不是网络传输的问题,不然小数据量怎么可以通过.我上网查了一下jvm crash那段报错信息,基本都是由于Unsafe访问到非法位置的原因,于是开始往这个方向考虑.</p>
 <p>最后与师兄讨论中意识到问题的关键所在,首先Spark一个executor执行task比较慢时,如果另一个executor执行完一个stage的所有task时,会将剩余的task调度到那个节点去执行,也就是non-local task.non-local task是从网络传输过去的,这部分task是由cache RDD的partition生成而来的,这部分task是从block manager过去的,然而partition中的UnsafeEdge对象中只有一个Unsafe成员变量,一个初始地址和终点地址,和分配在jvm堆内的对象不同,并不携带真正的数据.所以这个task被调度到其他executor时,自然会非法访问堆外内存,然后jvm crash掉,这也可以解释为什么stage中位置为Any的task都不能成功执行这个现象.至于2G的数据量为什么可以通过,因为task运行的时间很短,几乎不需要调度就可以在一个executor中全部完成.</p>
