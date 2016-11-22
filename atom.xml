@@ -34,25 +34,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[java程序优化的奇技淫巧]]></title>
-    <link href="http://kzx1025.github.io/2016/10/10/java-optimize/"/>
-    <id>http://kzx1025.github.io/2016/10/10/java-optimize/</id>
-    <published>2016-10-10T07:20:00.000Z</published>
-    <updated>2016-11-22T10:48:23.000Z</updated>
-    <content type="html"><![CDATA[<p>test</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>test</p>
-]]>
-    </summary>
-    
-      <category term="java" scheme="http://kzx1025.github.io/tags/java/"/>
-    
-      <category term="内存" scheme="http://kzx1025.github.io/tags/%E5%86%85%E5%AD%98/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[在大菠萝中遇到的一些小问题]]></title>
     <link href="http://kzx1025.github.io/2016/10/10/diablo/"/>
     <id>http://kzx1025.github.io/2016/10/10/diablo/</id>
@@ -156,7 +137,7 @@
     <link href="http://kzx1025.github.io/2016/09/11/assimilation/"/>
     <id>http://kzx1025.github.io/2016/09/11/assimilation/</id>
     <published>2016-09-11T12:20:00.000Z</published>
-    <updated>2016-11-22T09:34:53.000Z</updated>
+    <updated>2016-11-22T10:50:56.000Z</updated>
     <content type="html"><![CDATA[<p>看过一段访谈,一个摇滚乐队主唱的访谈,这个人叫邓斐,乐队名字叫寂寞.夏.日.曾经有一段时间疯狂地听他们的歌.他谈到他们的歌《这个易同化的民族》时说道:</p>
 <pre><code><span class="string">"我们正在被对权力的卑躬屈膝同化,正在被对文化和艺术弱智的认知同化,我们拿来从不消化甚至不知何物就充当自己,</span>
  我们做事不认真不努力随后从不自我反省反而学会相互制约和压制欺骗,我们正在被机会主义同化从无察觉...<span class="string">"</span>
