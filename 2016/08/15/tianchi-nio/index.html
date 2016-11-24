@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://kzx1025.github.io/2016/08/15/tianchi-nio/index.html">
 <meta property="og:site_name" content="IceKe Blog">
 <meta property="og:description" content="比赛的简单总结参加天池是被裴师兄安利的,这个很重要.在我眼中,裴博代码一直是写得飞起的那种,就是一边用B站放着billboard榜单,一边在那啪啪啪敲着代码,这看起来绝对很酷.所以我内心是崇拜他的,至少在技术上,他很刻苦,表现在很多方面.在此不一一赘述,因为我并不想在这开表彰会.他告诉我参加这个比赛会收获很多,我当然无条件相信,他当时参加的是机器学习相关的比赛.上半年正好有一场预测音乐播放量的比赛">
-<meta property="og:updated_time" content="2016-11-22T09:28:08.000Z">
+<meta property="og:updated_time" content="2016-11-24T12:53:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="借天池中间件复赛谈NIO">
 <meta name="twitter:description" content="比赛的简单总结参加天池是被裴师兄安利的,这个很重要.在我眼中,裴博代码一直是写得飞起的那种,就是一边用B站放着billboard榜单,一边在那啪啪啪敲着代码,这看起来绝对很酷.所以我内心是崇拜他的,至少在技术上,他很刻苦,表现在很多方面.在此不一一赘述,因为我并不想在这开表彰会.他告诉我参加这个比赛会收获很多,我当然无条件相信,他当时参加的是机器学习相关的比赛.上半年正好有一场预测音乐播放量的比赛">
@@ -372,7 +372,7 @@
 <li>构造：采用多线程分别对各个订单文件建立索引，索引内容为记录在文中的偏移量和该记录长度的结合体,起初先合并所有的订单文件再建立索引，后来发现合并与否对查询速度没有太大影响，由于没有进行多次测试，这个结论可能不成立。建立索引的方式起初是一部分B+树，一部分采用基于磁盘的map，后期由于B+树建立索引较慢，经常一小时内不能建完，后期全部改为基于disk的map。比赛后期性能改进包括将卖家和商品信息的索引全部放置在内存中，因为这两部分信息的索引大小之和并不大；将卖家与商品信息出现的字段缓存起来，若后期查询中字段不在其中，则省略了部分查询的步骤。</li>
 <li>查询：针对每个索引上层封装为一个DB，其中包含多个table对象，对应各个小索引文件。在构造索引期间对每个原记录文件和索引文件分别映射为一个MappedByteBuffer对象，有的记录长度大于int最大值，对这种文件进行分段映射多个mappedbytebuffer对象，具体查询请求时，在bytebuffer中读取信息。查询支持完全并发，但是由于每个索引文件都对应了一个table所以查询时需要遍历所有table最后返回结果，这种策略较为愚蠢。</li>
 </ul>
-<h2 id="关于NIO">关于NIO</h2><p>这次比赛算是很好的一次理解和使用NIO的机会,借这次简单一下介绍下这方面.</p>
+<h2 id="关于NIO">关于NIO</h2><p>这次比赛算是很好的一次理解和使用NIO的机会,借这次简单一下介绍下这方面.<br>//未完待续</p>
 
       
     </div>
@@ -512,7 +512,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -522,7 +522,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

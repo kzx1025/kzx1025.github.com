@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C语言,bug,内存," />
+  <meta name="keywords" content="hive,mysql,配环境," />
 
 
 
@@ -86,16 +86,31 @@
 
 
 
-<meta name="description" content="大菠萝的任务大菠萝全名diablo technology,是一家硬件技术外企.但是我是一名纯软界的小小码农,怎么会帮一个硬件公司做事呢.起初是这家公司中国区的技术人员跟我们组里的陆博大大比较熟,他们想招一两个懂Spark的人帮他们做一些测试和性能上的优化来得出他们研发的新硬件M1相比于市场上普通内存的特性与性能差异.于是陆博建议我担任这份兼职,工作不多而且还可以增一份不错的收入,众所周知,这种事情">
+<meta name="description" content="mysql配置先前的服务器mysql有一些莫名地故障，于是准备重装。贸然重装肯定是一件愚蠢的事，首先要做的是把原有的mysql卸载干净。但如果你的mysql能正常地工作，那当我没提起这件事。卸载遵循以下步骤：
+*运行rpm -qa|grep -i mysql。 显示如下：
+
+*删掉它们，当然之前要停止mysql服务，运行rpm -e --nodeps 包名
+*查找之前老版本mysql的目录、并且删">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在大菠萝中遇到的一些小问题">
-<meta property="og:url" content="http://kzx1025.github.io/2016/10/10/diablo/index.html">
+<meta property="og:title" content="科学配置hive+mysql+hadoop">
+<meta property="og:url" content="http://kzx1025.github.io/2016/11/24/hive-mysql/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="大菠萝的任务大菠萝全名diablo technology,是一家硬件技术外企.但是我是一名纯软界的小小码农,怎么会帮一个硬件公司做事呢.起初是这家公司中国区的技术人员跟我们组里的陆博大大比较熟,他们想招一两个懂Spark的人帮他们做一些测试和性能上的优化来得出他们研发的新硬件M1相比于市场上普通内存的特性与性能差异.于是陆博建议我担任这份兼职,工作不多而且还可以增一份不错的收入,众所周知,这种事情">
-<meta property="og:updated_time" content="2016-11-22T09:17:25.000Z">
+<meta property="og:description" content="mysql配置先前的服务器mysql有一些莫名地故障，于是准备重装。贸然重装肯定是一件愚蠢的事，首先要做的是把原有的mysql卸载干净。但如果你的mysql能正常地工作，那当我没提起这件事。卸载遵循以下步骤：
+*运行rpm -qa|grep -i mysql。 显示如下：
+
+*删掉它们，当然之前要停止mysql服务，运行rpm -e --nodeps 包名
+*查找之前老版本mysql的目录、并且删">
+<meta property="og:image" content="http://kzx1025.github.io/img/3.jpg">
+<meta property="og:image" content="http://kzx1025.github.io/img/4.jpg">
+<meta property="og:image" content="http://kzx1025.github.io/img/5.jpg">
+<meta property="og:updated_time" content="2016-11-24T13:50:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在大菠萝中遇到的一些小问题">
-<meta name="twitter:description" content="大菠萝的任务大菠萝全名diablo technology,是一家硬件技术外企.但是我是一名纯软界的小小码农,怎么会帮一个硬件公司做事呢.起初是这家公司中国区的技术人员跟我们组里的陆博大大比较熟,他们想招一两个懂Spark的人帮他们做一些测试和性能上的优化来得出他们研发的新硬件M1相比于市场上普通内存的特性与性能差异.于是陆博建议我担任这份兼职,工作不多而且还可以增一份不错的收入,众所周知,这种事情">
+<meta name="twitter:title" content="科学配置hive+mysql+hadoop">
+<meta name="twitter:description" content="mysql配置先前的服务器mysql有一些莫名地故障，于是准备重装。贸然重装肯定是一件愚蠢的事，首先要做的是把原有的mysql卸载干净。但如果你的mysql能正常地工作，那当我没提起这件事。卸载遵循以下步骤：
+*运行rpm -qa|grep -i mysql。 显示如下：
+
+*删掉它们，当然之前要停止mysql服务，运行rpm -e --nodeps 包名
+*查找之前老版本mysql的目录、并且删">
 
 
 
@@ -123,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://kzx1025.github.io/2016/10/10/diablo/"/>
+  <link rel="canonical" href="http://kzx1025.github.io/2016/11/24/hive-mysql/"/>
 
 
 
 
 
-  <title> 在大菠萝中遇到的一些小问题 | IceKe Blog </title>
+  <title> 科学配置hive+mysql+hadoop | IceKe Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -283,7 +298,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://kzx1025.github.io/2016/10/10/diablo/">
+  <link itemprop="mainEntityOfPage" href="http://kzx1025.github.io/2016/11/24/hive-mysql/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="IceKe">
@@ -307,7 +322,7 @@
             
             
               
-                在大菠萝中遇到的一些小问题
+                科学配置hive+mysql+hadoop
               
             
           </h1>
@@ -320,8 +335,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-10-10T15:20:00+08:00">
-                2016-10-10
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-24T15:39:47+08:00">
+                2016-11-24
               </time>
             
 
@@ -336,8 +351,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2016/10/10/diablo/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/diablo/" itemprop="commentCount"></span>
+                <a href="/2016/11/24/hive-mysql/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/24/hive-mysql/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -363,47 +378,22 @@
       
 
       
-        <h2 id="大菠萝的任务">大菠萝的任务</h2><p>大菠萝全名diablo technology,是一家硬件技术外企.但是我是一名纯软界的小小码农,怎么会帮一个硬件公司做事呢.起初是这家公司中国区的技术人员跟我们组里的陆博大大比较熟,他们想招一两个懂Spark的人帮他们做一些测试和性能上的优化来得出他们研发的新硬件M1相比于市场上普通内存的特性与性能差异.于是陆博建议我担任这份兼职,工作不多而且还可以增一份不错的收入,众所周知,这种事情我是无法拒绝的.</p>
-<p>为了推广M1,他们需要在M1上运行很多工业市场上流行的吃内存的软件与平台,包括spark,mysql,redis等.所以这三个月我就没事帮他们写一点测试的代码,优化spark的配置,寻找运行错误的bug,搭建redis-cluster这种活.期间爬过很多坑,有几个瞬间我感觉到自己是技术顾问,让我小小地膨胀一下.</p>
-<h2 id="C程序的测试">C程序的测试</h2><p>C语言我是有好几年没碰了,作为一个大四以后一直在jvm语言中游走,有时用python写点小项目的人,几乎对指针这种东西处于懵逼模式.</p>
-<p>代码的编写和测试流程我就不详细说了,说说遇到的段错误解决方案.也是这次跑C程序让我有了了解这方面知识的契机.发生了段错误/core dump,总结一下原因,一般是这几个:</p>
-<ul>
-<li>访问了不存在的内存地址</li>
-<li>访问了系统保护的内存地址</li>
-<li>访问了只读的内存地址等等情况</li>
-</ul>
-<p><strong>先用gdb -g -o xx xx.c 生成gdb可调试的文件。</strong>说到gdb调试,大概要知道这几个命令:</p>
-<ol>
-<li><p>gdb xx 进入gdb调试界面</p>
-</li>
-<li><p>b 行数 在第多少行打断点</p>
-</li>
-<li><p>按r进入运行状态</p>
-</li>
-<li><p>n是单步调试</p>
-</li>
-<li><p>s进入函数中调试</p>
-</li>
-<li><p>q是退出</p>
-</li>
-</ol>
-<p>继续说解决core dump的bug, 然后运行程序, ./xx发生段错误后会生成core文件.接着运行命令<strong>gdb xx core.36129</strong>.输入where 会打印出具体的core dump发生在代码中哪个位置，方便定位bug。</p>
-<p>还有一个bug是,每次都在内存地址被free的时候报无效指针,这种情况一般包含以下几个原因:</p>
-<ol>
-<li><p>一个地址被free了两次, 当然这个很容易查出来.</p>
-</li>
-<li><p>free的地址已经不是当时申请内存的起始地址了,注意可能在程序中的一些函数中对其做了一些操作.</p>
-</li>
-</ol>
-<h2 id="Spark-Sql测试框架中踩得坑">Spark-Sql测试框架中踩得坑</h2><p>大菠萝公司的喵叽(算我们的上司大人)想在机器上测试Spark Sql在M1上跑的性能，让我调研下Spark-sql-perf这个已有的测试框架<a href="https://github.com/databricks/spark-sql-perf" target="_blank" rel="external">(项目地址)</a>。看了一下框架代码，差不多就是写了很多sql语句封装成一个个benchmark对象然后有一个多线程模式，然后一起开测。首先，在大菠萝的机器上部署测试框架，然后写一个简单的测试程序。代码如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">object SqlTest extends Serializable&#123;</span><br><span class="line">  <span class="function">def <span class="title">main</span><span class="params">(args: Array[String])</span>: Unit </span>= &#123;</span><br><span class="line">    val sparkConf  = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"test"</span>)</span><br><span class="line">    .setMaster(<span class="string">"local"</span>)</span><br><span class="line">    val sc = <span class="keyword">new</span> SparkContext(sparkConf)</span><br><span class="line">    val sqlContext = <span class="keyword">new</span> org.apache.spark.sql.SQLContext(sc)</span><br><span class="line">   val tables = <span class="keyword">new</span> Tables(sqlContext, <span class="string">"/Users/iceke/projects/tpcds-kit/tools"</span>, </span><br><span class="line">   Integer.parseInt(<span class="string">"1"</span>))</span><br><span class="line">    tables.genData(<span class="string">"data"</span>,<span class="string">"parquet"</span>,<span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>, <span class="keyword">false</span>)</span><br><span class="line">    val tableNames = Array(<span class="string">"call_center"</span>, <span class="string">"catalog_page"</span>,  <span class="string">"catalog_returns"</span>, <span class="string">"catalog_sales"</span>,</span><br><span class="line">      <span class="string">"customer"</span>, <span class="string">"customer_address"</span>,  <span class="string">"customer_demographics"</span>, <span class="string">"date_dim"</span>,</span><br><span class="line">      <span class="string">"household_demographics"</span>, <span class="string">"income_band"</span>,   <span class="string">"inventory"</span>, <span class="string">"item"</span>, <span class="string">"promotion"</span>,</span><br><span class="line">      <span class="string">"reason"</span>, <span class="string">"ship_mode"</span>,  <span class="string">"store"</span>, <span class="string">"store_returns"</span>,  <span class="string">"store_sales"</span>, <span class="string">"time_dim"</span>,</span><br><span class="line">      <span class="string">"warehouse"</span>, <span class="string">"web_page"</span>,   <span class="string">"web_returns"</span>, <span class="string">"web_sales"</span>, <span class="string">"web_site"</span>)</span><br><span class="line">    <span class="keyword">for</span>(i &lt;- <span class="number">0</span> to tableNames.length - <span class="number">1</span>) &#123;</span><br><span class="line">      val a = sqlContext.read.parquet(<span class="string">"data"</span> + <span class="string">"/"</span> + tableNames&#123;i&#125;)</span><br><span class="line">     <span class="comment">// sc.broadcast(a)</span></span><br><span class="line">      a.registerTempTable(tableNames&#123;i&#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    val tpcds = <span class="keyword">new</span> TPCDS (sqlContext = sqlContext)</span><br><span class="line">    val experiment = tpcds.runExperiment(tpcds.tpcds1_4Queries, iterations = <span class="number">1</span>,forkThread=<span class="keyword">false</span>)</span><br><span class="line">    experiment.waitForFinish(<span class="number">60</span>*<span class="number">60</span>*<span class="number">10</span>)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>先生成数据，大概几十张表。然后加载这几十张表，进行benchmark实验。本来过程很简单，但是需求是无止境的，喵叽说试试把所有的表cache到内存中，这样进行查询时快一点，听上去非常简单，在注册后加上一行cache表的代码就可以了。部分代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> val a = sqlContext.read.parquet(<span class="string">"data"</span> + <span class="string">"/"</span> + tableNames&#123;i&#125;)</span><br><span class="line"><span class="comment">// sc.broadcast(a)</span></span><br><span class="line"> a.registerTempTable(tableNames&#123;i&#125;)</span><br><span class="line"> sqlContext.cacheTable(tableNames&#123;i&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>我在mac上用local模式测了一下ok便提交给喵叽。</p>
-<p>事情永远不会像想象的那么顺利，喵叽在集群上一测，就通过了几个benchmark，然后大量的stage报错，全部都是failed to get broadcast(TorrentBroadcast)异常，然后stage 直接失败，查看executor的日志发现已经有的broacast被remove了，但是接下来的加个task又会去获取这些broadcast，便会直接失败。这明显是不符合逻辑的，明明cache了所有表，靠异常堆栈信息并不好定位到错误的地方。我看了spark主页发现storage页面cache的RDD过一段时间就会消失，这也是一个重要的线索。</p>
-<p>测试了半天还是出错，我开始静下心慢慢跟着框架的代码走，我发现最后每一个线程都会执行一个doBenchmark方法，<br>方法里面最后执行完查询操作之后会做一些善后处理。相关代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> def <span class="title">benchmark</span><span class="params">(</span><br><span class="line">    includeBreakdown: Boolean,</span><br><span class="line">    description: String = <span class="string">""</span>,</span><br><span class="line">    messages: ArrayBuffer[String],</span><br><span class="line">    timeout: Long,</span><br><span class="line">    forkThread: Boolean = <span class="keyword">true</span>)</span>: BenchmarkResult </span>= &#123;</span><br><span class="line">  logger.info(s<span class="string">"$this: benchmark"</span>)</span><br><span class="line">  sparkContext.setJobDescription(s<span class="string">"Execution: $name, $description"</span>)</span><br><span class="line">  beforeBenchmark()</span><br><span class="line">  val result = <span class="keyword">if</span> (forkThread) &#123;</span><br><span class="line">    runBenchmarkForked(includeBreakdown, description, messages, timeout)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    doBenchmark(includeBreakdown, description, messages)</span><br><span class="line">  &#125;</span><br><span class="line">  println(<span class="string">"!!!!!!!!!!!!!!!!after Bench"</span>)</span><br><span class="line">  afterBenchmark(sqlContext.sparkContext)</span><br><span class="line">  result</span><br></pre></td></tr></table></figure></p>
-<p>这个善后处理是afterBenchmark方法，方法代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> def <span class="title">afterBenchmark</span><span class="params">(sc: SparkContext)</span>: Unit </span>= &#123;</span><br><span class="line">  <span class="comment">// Best-effort clean up of weakly referenced RDDs, shuffles, and broadcasts</span></span><br><span class="line">  System.gc()</span><br><span class="line">  <span class="comment">// Remove any leftover blocks that still exist</span></span><br><span class="line">  sc.getExecutorStorageStatus</span><br><span class="line">      .flatMap &#123; status =&gt; status.blocks.map &#123; <span class="keyword">case</span> (bid, _) =&gt; bid &#125; &#125;</span><br><span class="line">      .foreach &#123; bid =&gt; SparkEnv.get.blockManager.master.removeBlock(bid) &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>它会对每个相关block的id进行移除，无论它是否做了cache。所以解决方法是注释掉afterBenchmark方法，与上次堆外内存的bug一样，发现bug的过程是痛苦的，解决方案是简单到发指的,让人痛苦,又让人快乐.</p>
-<p>所以说，别人的框架不是万能的，虽然你操作起来更便捷，但你必须遵守它制定的那一些规则，有些规则是操蛋的，当你使用它时，如果一直被操蛋的bug所围困，就需要看看它的源码看看是否有问题，或者与你的策略存在偶然性的冲突。</p>
-<p><strong>最后, 我的梦想是成为规则的制定者.</strong></p>
+        <h2 id="mysql配置">mysql配置</h2><p>先前的服务器mysql有一些莫名地故障，于是准备重装。贸然重装肯定是一件愚蠢的事，首先要做的是把原有的mysql卸载干净。但如果你的mysql能正常地工作，那当我没提起这件事。卸载遵循以下步骤：</p>
+<pre><code><span class="keyword">*</span>运行rpm -qa|<span class="string">grep -i mysql。 显示如下：</span>
+</code></pre><p><img src="/img/3.jpg" alt=""></p>
+<pre><code><span class="keyword">*</span>删掉它们，当然之前要停止mysql服务，运行rpm -e --nodeps 包名
+<span class="keyword">*</span>查找之前老版本mysql的目录、并且删除老版本mysql的文件和库,运行find / -name mysql，会出现很多关于mysql的目录，删掉它们。
+<span class="keyword">*</span>run <span class="string">"rm -rf /etc/my.cnf"</span>
+<span class="keyword">*</span>再次查找机器是否安装mysql --&gt;rpm -qa|<span class="string">grep -i mysql</span>
+</code></pre><p> 接下来安装mysql，方便起见，采用rpm的安装方式。下载mysql全家桶<a href="http://115.156.188.231/cdn.mysql.com//Downloads/MySQL-5.5/MySQL-5.5.53-1.linux2.6.x86_64.rpm-bundle.tar" target="_blank" rel="external">下载地址</a>，然后解压，安装=》sudo rpm -ivh MySQL-<em>。顺便转一下配置文件=》sudo cp /usr/share/mysql/my-large.cnf /etc/my.cnf。<br> 开启mysql服务=》  service mysql start。<br> 设置用户密码=》 sudo /usr/bin/mysqladmin -u root password ‘123’<br> 进入mysql=》mysql -uroot -p123<br> 创建mysql的hive用户=》 CREATE USER ‘hive’@’localhost’ IDENTIFIED BY “123”<br> 创建数据库=》create database hive;<br> 赋予权限=》 grant all on hive.</em> to hive@’%’  identified by ‘hive’; grant all on hive.* to hive@’localhost’  identified by ‘hive’; flush privileges;<br> 退出mysql<br>顺便可以验证下hive用户=》 mysql -uhive -phive</p>
+<h2 id="hadoop安装">hadoop安装</h2><p>略<br>不过注意一个问题：之前hadoop start起来没问题，也没有仔细看日志，但是运行hadoop命令总是遇到connection refused的问题，之前以为防火墙的原因。后来发现是用户bashrc的环境配置默认hadoop是另一个版本的，所以hadoop的命令工具来自另个hadoop。这个错误原因有点离谱，但还是挺难发现的。</p>
+<h2 id="hive安装与配置">hive安装与配置</h2><h3 id="安装配置">安装配置</h3><p>首先下载 hive1.2.1=》 nohup wget <a href="http://mirrors.hust.edu.cn/apache/hive/stable/apache-hive-1.2.1-bin.tar.gz" target="_blank" rel="external">http://mirrors.hust.edu.cn/apache/hive/stable/apache-hive-1.2.1-bin.tar.gz</a> &amp;<br>解压 tar -zxvf ..<br>配置环境变量 .bashrc=&gt;<br>export HIVE_HOME=/home/feiwang/hive-2.0<br>export HIVE_CONF_DIR=/home/feiwang/hive-2.0/conf<br>export PATH=$PATH:$HIVE_HOME/bin<br>source .bashrc<br>修改hive配置文件，<strong>将默认文件mv成hive-site.xml，不是hive-default.xml！</strong>之前一直读取配置有问题就是这个原因。<br>主要修改以下参数：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">name</span>&gt;</span>javax.jdo.option.ConnectionURL <span class="tag">&lt;/<span class="title">name</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">value</span>&gt;</span>jdbc:mysql://localhost:3306/hive <span class="tag">&lt;/<span class="title">value</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">name</span>&gt;</span>javax.jdo.option.ConnectionDriverName <span class="tag">&lt;/<span class="title">name</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">value</span>&gt;</span>com.mysql.jdbc.Driver <span class="tag">&lt;/<span class="title">value</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">name</span>&gt;</span>javax.jdo.option.ConnectionPassword <span class="tag">&lt;/<span class="title">name</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">value</span>&gt;</span>hive <span class="tag">&lt;/<span class="title">value</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span> </span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">name</span>&gt;</span>hive.hwi.listen.port <span class="tag">&lt;/<span class="title">name</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">value</span>&gt;</span>9999 <span class="tag">&lt;/<span class="title">value</span>&gt;</span> </span><br><span class="line">   <span class="tag">&lt;<span class="title">description</span>&gt;</span>This is the port the Hive Web Interface will listen on <span class="tag">&lt;/<span class="title">descript</span> <span class="attribute">ion</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span> </span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">value</span>&gt;</span>hive<span class="tag">&lt;/<span class="title">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="title">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">name</span>&gt;</span>hive.metastore.uris<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">value</span>&gt;</span>thrift://127.0.0.1:9083<span class="tag">&lt;/<span class="title">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">description</span>&gt;</span>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.<span class="tag">&lt;/<span class="title">description</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">name</span>&gt;</span>hive.exec.scratchdir<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">value</span>&gt;</span>/tmp/hive<span class="tag">&lt;/<span class="title">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">description</span>&gt;</span>HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: $&#123;hive.exec.scratchdir&#125;/&amp;lt;username&amp;gt; is created, with $&#123;hive.scratch.dir.permission&#125;.<span class="tag">&lt;/<span class="title">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">name</span>&gt;</span>hive.exec.local.scratchdir<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">value</span>&gt;</span>/tmp/hive/local<span class="tag">&lt;/<span class="title">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">description</span>&gt;</span>Local scratch space for Hive jobs<span class="tag">&lt;/<span class="title">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">name</span>&gt;</span>hive.downloaded.resources.dir<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">value</span>&gt;</span>/tmp/hive/resources<span class="tag">&lt;/<span class="title">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">description</span>&gt;</span>Temporary local directory for added resources in the remote file system.<span class="tag">&lt;/<span class="title">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>下载jdbc的jar包=》wget <a href="http://115.156.188.231/cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-5.1.40.tar.gz" target="_blank" rel="external">http://115.156.188.231/cdn.mysql.com//Downloads/Connector-J/mysql-connector-java-5.1.40.tar.gz</a></p>
+<p>拷贝mysql-connector-java-5.1.40-bin.jar 到hive 的lib下面<br>mv mysql-connector-java-5.1.40-bin.jar /root/feiwang/hive-2.0/lib/</p>
+<p>启动元数据 =》<strong>bin/hive –service metastore &amp;</strong></p>
+<h3 id="验证">验证</h3><p>运行 hive命令,创建表：<br><img src="/img/4.jpg" alt=""><br>进入mysql会发现hive数据库自动生成了很多表<br><img src="/img/5.jpg" alt=""><br>进入hadoop的hdfs会发现也有两个文件夹生成了<br>Found 2 items<br><strong>drwxr-xr-x   - root supergroup          0 2016-11-24 21:43 /user/hive/warehouse/diablo</strong><br><strong>drwxr-xr-x   - root supergroup          0 2016-11-24 19:45 /user/hive/warehouse/kzx</strong></p>
+<h3 id="简单介绍下hive">简单介绍下hive</h3><p>Hive是运行在Hadoop之上的数据仓库，将结构化的数据文件映射为一张数据库表，提供简单类SQL查询语言，称为HQL，并将SQL语句转换成MapReduce任务运。有利于利用SQL语言查询、分析数据，适于处理不频繁变动的数据。Hive底层可以是HBase或者HDFS存储的文件。两者都是基于Hadoop上不同的技术，相互结合使用，可处理企业中不同类型的业务，利用Hive处理非结构化离线分析统计，利用HBase处理在线查询。<br>Hive三种元数据存储方式：<br>1&gt;.本地derby存储，只允许一个用户连接Hive，适用于测试环境<br>2&gt;.本地/远程MySQL存储，支持多用户连接Hive，适用于生产环境</p>
 
       
     </div>
@@ -427,11 +417,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/C语言/" rel="tag"># C语言</a>
+            <a href="/tags/hive/" rel="tag"># hive</a>
           
-            <a href="/tags/bug/" rel="tag"># bug</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
-            <a href="/tags/内存/" rel="tag"># 内存</a>
+            <a href="/tags/配环境/" rel="tag"># 配环境</a>
           
         </div>
       
@@ -440,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/28/spark-bug/" rel="next" title="修改Spark内核(Deca)所产生的两个奇怪bug">
-                <i class="fa fa-chevron-left"></i> 修改Spark内核(Deca)所产生的两个奇怪bug
+              <a href="/2016/11/11/stephen-chow/" rel="next" title="谈谈我的偶像周星驰先生">
+                <i class="fa fa-chevron-left"></i> 谈谈我的偶像周星驰先生
               </a>
             
           </div>
@@ -449,10 +439,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/11/stephen-chow/" rel="prev" title="谈谈我的偶像周星驰先生">
-                谈谈我的偶像周星驰先生 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -467,10 +453,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/10/10/diablo/"
-     data-title="在大菠萝中遇到的一些小问题"
+        <div class="ds-share flat" data-thread-key="2016/11/24/hive-mysql/"
+     data-title="科学配置hive+mysql+hadoop"
      data-content=""
-     data-url="http://kzx1025.github.io/2016/10/10/diablo/">
+     data-url="http://kzx1025.github.io/2016/11/24/hive-mysql/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -497,8 +483,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/10/10/diablo/"
-           data-title="在大菠萝中遇到的一些小问题" data-url="http://kzx1025.github.io/2016/10/10/diablo/">
+      <div class="ds-thread" data-thread-key="2016/11/24/hive-mysql/"
+           data-title="科学配置hive+mysql+hadoop" data-url="http://kzx1025.github.io/2016/11/24/hive-mysql/">
       </div>
     
   </div>
@@ -629,7 +615,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#大菠萝的任务"><span class="nav-number">1.</span> <span class="nav-text">大菠萝的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C程序的测试"><span class="nav-number">2.</span> <span class="nav-text">C程序的测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Sql测试框架中踩得坑"><span class="nav-number">3.</span> <span class="nav-text">Spark-Sql测试框架中踩得坑</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql配置"><span class="nav-number">1.</span> <span class="nav-text">mysql配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hadoop安装"><span class="nav-number">2.</span> <span class="nav-text">hadoop安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hive安装与配置"><span class="nav-number">3.</span> <span class="nav-text">hive安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装配置"><span class="nav-number">3.1.</span> <span class="nav-text">安装配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">3.2.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单介绍下hive"><span class="nav-number">3.3.</span> <span class="nav-text">简单介绍下hive</span></a></li></ol></li></ol></div>
             
 
           </div>
