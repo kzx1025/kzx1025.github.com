@@ -2,6 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kzx1025.github.io/about/index.html</loc>
+    <lastmod>2016-11-24T18:15:41.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://kzx1025.github.io/2016/11/26/java-optimize/</loc>
+    <lastmod>2016-11-24T17:43:02.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://kzx1025.github.io/2016/11/24/hive-mysql/</loc>
     <lastmod>2016-11-24T13:58:52.000Z</lastmod>
   </url>
@@ -34,11 +44,6 @@
   <url>
     <loc>http://kzx1025.github.io/2015/10/14/Some-Pictures/</loc>
     <lastmod>2015-10-14T15:53:17.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kzx1025.github.io/about/index.html</loc>
-    <lastmod>2015-10-14T11:02:28.000Z</lastmod>
   </url>
   
   <url>
