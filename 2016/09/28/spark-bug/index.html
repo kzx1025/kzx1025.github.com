@@ -86,22 +86,22 @@
 
 
 
-<meta name="description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
+<meta name="description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生咱们内存计算小组陆博的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="修改Spark内核(Deca)所产生的两个奇怪bug">
 <meta property="og:url" content="http://kzx1025.github.io/2016/09/28/spark-bug/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
+<meta property="og:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生咱们内存计算小组陆博的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用">
 <meta property="og:image" content="http://kzx1025.github.io/img/1.jpg">
 <meta property="og:image" content="http://kzx1025.github.io/img/2.jpg">
-<meta property="og:updated_time" content="2016-11-22T09:30:34.000Z">
+<meta property="og:updated_time" content="2016-11-25T02:48:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="修改Spark内核(Deca)所产生的两个奇怪bug">
-<meta name="twitter:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
+<meta name="twitter:description" content="Spark将数据放在jvm堆外导致无故卡死思路实现与问题产生咱们内存计算小组陆博的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: 
 1.完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 2.手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用">
 
@@ -371,7 +371,7 @@
       
 
       
-        <h2 id="Spark将数据放在jvm堆外导致无故卡死">Spark将数据放在jvm堆外导致无故卡死</h2><h3 id="思路实现与问题产生">思路实现与问题产生</h3><p>我们内存计算小组博士的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: </p>
+        <h2 id="Spark将数据放在jvm堆外导致无故卡死">Spark将数据放在jvm堆外导致无故卡死</h2><h3 id="思路实现与问题产生">思路实现与问题产生</h3><p>咱们内存计算小组陆博的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: </p>
 <pre><code><span class="number">1.</span>完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 <span class="number">2.</span>手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用的代码进行改造;
 <span class="number">3.</span>进行了大量的测试并统计GC时间,stage时间等相关数据.
