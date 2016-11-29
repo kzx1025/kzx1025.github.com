@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2016-11-29T03:09:48.000Z</updated>
+  <updated>2016-11-29T03:10:31.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://kzx1025.github.io/2016/11/28/super-zombie/"/>
     <id>http://kzx1025.github.io/2016/11/28/super-zombie/</id>
     <published>2016-11-28T08:50:00.000Z</published>
-    <updated>2016-11-29T03:09:48.000Z</updated>
+    <updated>2016-11-29T03:10:31.000Z</updated>
     <content type="html"><![CDATA[<pre><code>你怎么死来死去都死不了啊？
 其实我差点就死了，你再给我多一点点时间，我就死定了。  <span class="comment">----喜剧之王    </span>
 </code></pre><h2 id="写在前面的话">写在前面的话</h2><p>僵尸进程是经常遇到的，解决起来也比较方便。但一个偶然的机会遇到了一个父进程为1号进程的的僵尸进程，这个父进程肯定是不能随意杀死的，否则会导致严重的后果，至于什么严重的后果我也没测试过，搜了一下好像也没人细说。所以我私自地给它命名为超级僵尸进程，听起来给人一种很厉害的感觉，但又略带有一些调侃，加上上面的一句喜剧之王的台词，显得饶有趣味，好吧，岔开了，进入正题。</p>
