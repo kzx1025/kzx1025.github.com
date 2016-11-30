@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2016-11-30T15:36:55.000Z</updated>
+  <updated>2016-11-30T15:37:55.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://kzx1025.github.io/2016/11/30/groupByKey-design/"/>
     <id>http://kzx1025.github.io/2016/11/30/groupByKey-design/</id>
     <published>2016-11-30T09:20:00.000Z</published>
-    <updated>2016-11-30T15:36:55.000Z</updated>
+    <updated>2016-11-30T15:37:55.000Z</updated>
     <content type="html"><![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
 我姑且把它叫做工程师的特殊性.  <span class="comment">---- me</span>
 </code></pre><p> 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”</p>
@@ -68,7 +68,7 @@
     <link href="http://kzx1025.github.io/2016/11/26/java-optimize/"/>
     <id>http://kzx1025.github.io/2016/11/26/java-optimize/</id>
     <published>2016-11-26T14:20:00.000Z</published>
-    <updated>2016-11-30T15:36:29.000Z</updated>
+    <updated>2016-11-30T15:38:00.000Z</updated>
     <content type="html"><![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码 -&gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优化，毕竟spark这种分布式系统很多都跑在jvm上。附上<a href="https://spark.apache.org/docs/latest/tuning.html" target="_blank" rel="external">spark团队给的优化向导地址</a>，里面有一部分讲的就是垃圾回收策略的选择与调控。</p>
 <p>好的，让我们来快速聊下jvm^_^<br><strong>jvm的构成</strong>: jvm区域总体分两类，heap区和非heap区。heap区又分：Eden Space（伊甸园）、Survivor Space(幸存者区)、TenuredGen（老年代-养老区）。非heap区又分：Code Cache(代码缓存区)、Perm Gen（永久代）、Jvm Stack(java虚拟机栈)、Local Method Statck(本地方法栈)。<br>曾经看过一个举例很形象，大致解释了下jvm对象的生与死。<br>假设你是一个普通的Java对象，你出生在Eden区，在Eden区有许多和你差不多的小兄弟、小姐妹，可以把Eden区当成幼儿园,在这个幼儿园里大家玩了很长时间。<br>Eden区不能无休止地放你们在里面，所以当年纪稍大，你就要被送到学校去上学，这里假设从小学到高中都称为 Survivor区。开始的时候你在Survivor区里面划分出来的的“From”区，读到高年级了，就进了Survivor区的“To”区，中间由于学习成绩不稳定，还经常来回折腾。(这里指发生了18次 )直到18岁的时候，高中毕业了，该去社会上闯闯了。于是你就去了年老代，年老代里面人也很多。在年老代里,你生活了20年每次GC加一岁),最后寿终正寝，被GC回收。有一点没有提，你在年老代遇到了一个同学，他的名字叫海绵宝宝，他以及他的海绵家族永远不会死，那么他们就生活在永生代。<br>这里解释下永生代，这里面放着jvm不会去主动回收的东西，如类模版对象，方法模版对象，还有在JDK7之前的HotSpot虚拟机中，纳入字符串常量池的字符串被存储在永久代中，因此导致了一系列的性能问题和内存溢出错误。所以在java8中移除了永生代，迎来了元空间。</p>
 ]]></content>
