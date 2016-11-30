@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2016-11-29T03:10:31.000Z</updated>
+  <updated>2016-11-30T15:36:55.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -13,6 +13,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[实现带有mapSideCombine的groupByKey]]></title>
+    <link href="http://kzx1025.github.io/2016/11/30/groupByKey-design/"/>
+    <id>http://kzx1025.github.io/2016/11/30/groupByKey-design/</id>
+    <published>2016-11-30T09:20:00.000Z</published>
+    <updated>2016-11-30T15:36:55.000Z</updated>
+    <content type="html"><![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
+我姑且把它叫做工程师的特殊性.  <span class="comment">---- me</span>
+</code></pre><p> 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
+我姑且把它叫做工程师的特殊性.  <span class="comment">---- me</span>
+</code></pre><p> 上面的前言虽说出了口，但总感觉有点中二]]>
+    </summary>
+    
+      <category term="spark" scheme="http://kzx1025.github.io/tags/spark/"/>
+    
+      <category term="内存" scheme="http://kzx1025.github.io/tags/%E5%86%85%E5%AD%98/"/>
+    
+      <category term="序列化" scheme="http://kzx1025.github.io/tags/%E5%BA%8F%E5%88%97%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[偶遇超级僵尸进程]]></title>
@@ -44,12 +68,12 @@
     <link href="http://kzx1025.github.io/2016/11/26/java-optimize/"/>
     <id>http://kzx1025.github.io/2016/11/26/java-optimize/</id>
     <published>2016-11-26T14:20:00.000Z</published>
-    <updated>2016-11-24T17:43:02.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>假设你是一个普通的 Java 对象</p>
+    <updated>2016-11-30T15:36:29.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码 -&gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优化，毕竟spark这种分布式系统很多都跑在jvm上。附上<a href="https://spark.apache.org/docs/latest/tuning.html" target="_blank" rel="external">spark团队给的优化向导地址</a>，里面有一部分讲的就是垃圾回收策略的选择与调控。</p>
+<p>好的，让我们来快速聊下jvm^_^<br><strong>jvm的构成</strong>: jvm区域总体分两类，heap区和非heap区。heap区又分：Eden Space（伊甸园）、Survivor Space(幸存者区)、TenuredGen（老年代-养老区）。非heap区又分：Code Cache(代码缓存区)、Perm Gen（永久代）、Jvm Stack(java虚拟机栈)、Local Method Statck(本地方法栈)。<br>曾经看过一个举例很形象，大致解释了下jvm对象的生与死。<br>假设你是一个普通的Java对象，你出生在Eden区，在Eden区有许多和你差不多的小兄弟、小姐妹，可以把Eden区当成幼儿园,在这个幼儿园里大家玩了很长时间。<br>Eden区不能无休止地放你们在里面，所以当年纪稍大，你就要被送到学校去上学，这里假设从小学到高中都称为 Survivor区。开始的时候你在Survivor区里面划分出来的的“From”区，读到高年级了，就进了Survivor区的“To”区，中间由于学习成绩不稳定，还经常来回折腾。(这里指发生了18次 )直到18岁的时候，高中毕业了，该去社会上闯闯了。于是你就去了年老代，年老代里面人也很多。在年老代里,你生活了20年每次GC加一岁),最后寿终正寝，被GC回收。有一点没有提，你在年老代遇到了一个同学，他的名字叫海绵宝宝，他以及他的海绵家族永远不会死，那么他们就生活在永生代。<br>这里解释下永生代，这里面放着jvm不会去主动回收的东西，如类模版对象，方法模版对象，还有在JDK7之前的HotSpot虚拟机中，纳入字符串常量池的字符串被存储在永久代中，因此导致了一系列的性能问题和内存溢出错误。所以在java8中移除了永生代，迎来了元空间。</p>
 ]]></content>
     <summary type="html">
-    <![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>假设你是一个普通的 Java 对象</p>
-]]>
+    <![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码]]>
     </summary>
     
       <category term="java" scheme="http://kzx1025.github.io/tags/java/"/>
@@ -243,7 +267,7 @@
     <link href="http://kzx1025.github.io/2016/08/15/tianchi-nio/"/>
     <id>http://kzx1025.github.io/2016/08/15/tianchi-nio/</id>
     <published>2016-08-15T12:20:00.000Z</published>
-    <updated>2016-11-24T12:53:40.000Z</updated>
+    <updated>2016-11-30T09:01:02.000Z</updated>
     <content type="html"><![CDATA[<h2 id="比赛的简单总结">比赛的简单总结</h2><p>参加天池是被裴师兄安利的,这个很重要.在我眼中,裴博代码一直是写得飞起的那种,就是一边用B站放着billboard榜单,一边在那啪啪啪敲着代码,这看起来绝对很酷.所以我内心是崇拜他的,至少在技术上,他很刻苦,表现在很多方面.在此不一一赘述,因为我并不想在这开表彰会.他告诉我参加这个比赛会收获很多,我当然无条件相信,他当时参加的是机器学习相关的比赛.上半年正好有一场预测音乐播放量的比赛,我便屁颠颠地参加,对机器学习一窍不通,于是便慢慢学,特征,建立模型,训练.耗时一个半月,纯模型效果并不好,于是加了一些规则,后来还用了股票里经常遇到的时序模型,嗯,挺高大上的.这个比赛的确学习了很多,但总感觉浮于表面,略显浮夸,写代码也不是很多,更多的参赛选手都是搞机器学习和数学统计的,我并不在行.</p>
 <p>这时候一个新比赛来华科路演,跑过去听了一听,意料之中,没什么太大收获,但是这个比赛引起了我极大的兴趣.首先它涉及系统设计,代码量跟机器学习类的比赛肯定不是一个级别,初赛和复赛考察内容很不一样.我觉得这种比赛还是很有趣的,但可能比较累,因为代码一多,因此而诞生的bug也会多起来,这点不太像机器学习的比赛,大部分时间是在等待和思考策略,动手的时间并不多.</p>
 <p>中间件比赛分为初赛和复赛.初赛是实现一个实时统计双十一交易数据的系统,用到了三个组件jstorm,rocketmq和tair.都是阿里自家的产品,但都可以在原先的开源平台中找到原型,分别是storm,rabbitmq和redis.用法和api也大同小异,这个题目考察的主要还是熟悉这三个系统的使用,基本程序能正常运行跑出结果就能进前100了,如果想要跑到更好的成绩就需要想到更好的缓存策略.但你又不能把所有数据常驻内存,这样程序就会挂掉,而且这也不符合流计算的思想,流计算就应该是将数据想象成一段水流(不免让人想起破坏之王里的断水流大师兄),只不过水流会途径一些地方经过加工,如果水流囤积,那必然引起溃堤等风险.我的基本策略是jstorm的bolt主线程处理数据并统计,再开一个独立的线程用于数据的同步然后发送到下一个bolt.对我来说jstorm和storm最不同的一点就是:jstorm的Spout nextTuple和ack/fail运行在不同线程,这样可以防止CPU空转.storm的bolt和spout组件构成一个topology,一个设计优雅的拓扑图也是可以大大提高程序性能的.</p>

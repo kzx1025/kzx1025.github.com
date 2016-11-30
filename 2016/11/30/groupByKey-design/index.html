@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,内存," />
+  <meta name="keywords" content="spark,内存,序列化," />
 
 
 
@@ -86,16 +86,22 @@
 
 
 
-<meta name="description" content="一些要交代的我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&amp;gt; 写常用的spark应用 -&amp;gt; 读spark源码 -&amp;gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优">
+<meta name="description" content="一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
+我姑且把它叫做工程师的特殊性.  ---- me
+ 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”">
 <meta property="og:type" content="article">
-<meta property="og:title" content="论jvm优化">
-<meta property="og:url" content="http://kzx1025.github.io/2016/11/26/java-optimize/index.html">
+<meta property="og:title" content="实现带有mapSideCombine的groupByKey">
+<meta property="og:url" content="http://kzx1025.github.io/2016/11/30/groupByKey-design/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="一些要交代的我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&amp;gt; 写常用的spark应用 -&amp;gt; 读spark源码 -&amp;gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优">
-<meta property="og:updated_time" content="2016-11-30T15:36:29.000Z">
+<meta property="og:description" content="一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
+我姑且把它叫做工程师的特殊性.  ---- me
+ 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”">
+<meta property="og:updated_time" content="2016-11-30T15:36:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="论jvm优化">
-<meta name="twitter:description" content="一些要交代的我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&amp;gt; 写常用的spark应用 -&amp;gt; 读spark源码 -&amp;gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优">
+<meta name="twitter:title" content="实现带有mapSideCombine的groupByKey">
+<meta name="twitter:description" content="一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
+我姑且把它叫做工程师的特殊性.  ---- me
+ 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”">
 
 
 
@@ -123,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://kzx1025.github.io/2016/11/26/java-optimize/"/>
+  <link rel="canonical" href="http://kzx1025.github.io/2016/11/30/groupByKey-design/"/>
 
 
 
 
 
-  <title> 论jvm优化 | IceKe Blog </title>
+  <title> 实现带有mapSideCombine的groupByKey | IceKe Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -283,7 +289,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://kzx1025.github.io/2016/11/26/java-optimize/">
+  <link itemprop="mainEntityOfPage" href="http://kzx1025.github.io/2016/11/30/groupByKey-design/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="IceKe">
@@ -307,7 +313,7 @@
             
             
               
-                论jvm优化
+                实现带有mapSideCombine的groupByKey
               
             
           </h1>
@@ -320,8 +326,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-26T22:20:00+08:00">
-                2016-11-26
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-30T17:20:00+08:00">
+                2016-11-30
               </time>
             
 
@@ -336,8 +342,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/2016/11/26/java-optimize/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/26/java-optimize/" itemprop="commentCount"></span>
+                <a href="/2016/11/30/groupByKey-design/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/30/groupByKey-design/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -363,8 +369,9 @@
       
 
       
-        <h2 id="一些要交代的">一些要交代的</h2><p>我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码 -&gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优化，毕竟spark这种分布式系统很多都跑在jvm上。附上<a href="https://spark.apache.org/docs/latest/tuning.html" target="_blank" rel="external">spark团队给的优化向导地址</a>，里面有一部分讲的就是垃圾回收策略的选择与调控。</p>
-<p>好的，让我们来快速聊下jvm^_^<br><strong>jvm的构成</strong>: jvm区域总体分两类，heap区和非heap区。heap区又分：Eden Space（伊甸园）、Survivor Space(幸存者区)、TenuredGen（老年代-养老区）。非heap区又分：Code Cache(代码缓存区)、Perm Gen（永久代）、Jvm Stack(java虚拟机栈)、Local Method Statck(本地方法栈)。<br>曾经看过一个举例很形象，大致解释了下jvm对象的生与死。<br>假设你是一个普通的Java对象，你出生在Eden区，在Eden区有许多和你差不多的小兄弟、小姐妹，可以把Eden区当成幼儿园,在这个幼儿园里大家玩了很长时间。<br>Eden区不能无休止地放你们在里面，所以当年纪稍大，你就要被送到学校去上学，这里假设从小学到高中都称为 Survivor区。开始的时候你在Survivor区里面划分出来的的“From”区，读到高年级了，就进了Survivor区的“To”区，中间由于学习成绩不稳定，还经常来回折腾。(这里指发生了18次 )直到18岁的时候，高中毕业了，该去社会上闯闯了。于是你就去了年老代，年老代里面人也很多。在年老代里,你生活了20年每次GC加一岁),最后寿终正寝，被GC回收。有一点没有提，你在年老代遇到了一个同学，他的名字叫海绵宝宝，他以及他的海绵家族永远不会死，那么他们就生活在永生代。<br>这里解释下永生代，这里面放着jvm不会去主动回收的东西，如类模版对象，方法模版对象，还有在JDK7之前的HotSpot虚拟机中，纳入字符串常量池的字符串被存储在永久代中，因此导致了一系列的性能问题和内存溢出错误。所以在java8中移除了永生代，迎来了元空间。</p>
+        <pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
+我姑且把它叫做工程师的特殊性.  <span class="comment">---- me</span>
+</code></pre><p> 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”</p>
 
       
     </div>
@@ -388,9 +395,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
+            <a href="/tags/spark/" rel="tag"># spark</a>
           
             <a href="/tags/内存/" rel="tag"># 内存</a>
+          
+            <a href="/tags/序列化/" rel="tag"># 序列化</a>
           
         </div>
       
@@ -399,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/24/hive-mysql/" rel="next" title="科学配置hive+mysql+hadoop">
-                <i class="fa fa-chevron-left"></i> 科学配置hive+mysql+hadoop
+              <a href="/2016/11/28/super-zombie/" rel="next" title="偶遇超级僵尸进程">
+                <i class="fa fa-chevron-left"></i> 偶遇超级僵尸进程
               </a>
             
           </div>
@@ -408,10 +417,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/28/super-zombie/" rel="prev" title="偶遇超级僵尸进程">
-                偶遇超级僵尸进程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -426,10 +431,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/11/26/java-optimize/"
-     data-title="论jvm优化"
+        <div class="ds-share flat" data-thread-key="2016/11/30/groupByKey-design/"
+     data-title="实现带有mapSideCombine的groupByKey"
      data-content=""
-     data-url="http://kzx1025.github.io/2016/11/26/java-optimize/">
+     data-url="http://kzx1025.github.io/2016/11/30/groupByKey-design/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -456,8 +461,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/11/26/java-optimize/"
-           data-title="论jvm优化" data-url="http://kzx1025.github.io/2016/11/26/java-optimize/">
+      <div class="ds-thread" data-thread-key="2016/11/30/groupByKey-design/"
+           data-title="实现带有mapSideCombine的groupByKey" data-url="http://kzx1025.github.io/2016/11/30/groupByKey-design/">
       </div>
     
   </div>
@@ -481,17 +486,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://ww3.sinaimg.cn/mw690/9f4f8aecjw8evoivlefirj20k00k0gop.jpg"
@@ -578,22 +574,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些要交代的"><span class="nav-number">1.</span> <span class="nav-text">一些要交代的</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
