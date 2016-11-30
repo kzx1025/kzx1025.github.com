@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[实现带有mapSideCombine的groupByKey(spark-shuffle)]]></title>
+      <title><![CDATA[实现mapSideCombine的groupByKey(spark-shuffle)]]></title>
       <url>%2F2016%2F11%2F30%2FgroupByKey-design%2F</url>
       <content type="text"><![CDATA[一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。 我姑且把它叫做工程师的特殊性. ---- me 上面的前言虽说出了口，但总感觉有点中二，有点像模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”]]></content>
     </entry>
