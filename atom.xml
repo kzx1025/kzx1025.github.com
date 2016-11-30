@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2016-11-30T15:40:14.000Z</updated>
+  <updated>2016-11-30T15:45:40.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -19,15 +19,15 @@
     <link href="http://kzx1025.github.io/2016/11/30/groupByKey-design/"/>
     <id>http://kzx1025.github.io/2016/11/30/groupByKey-design/</id>
     <published>2016-11-30T09:20:00.000Z</published>
-    <updated>2016-11-30T15:40:14.000Z</updated>
+    <updated>2016-11-30T15:45:40.000Z</updated>
     <content type="html"><![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
-我姑且把它叫做工程师的特殊性.  <span class="comment">---- me</span>
-</code></pre><p> 上面的前言虽说出了口，但有点中二，总给人感觉模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”</p>
+我姑且把它叫做工程师的特殊性.                             <span class="comment">---- me</span>
+</code></pre><p> 上面的前言虽说出了口，但有点中二，总给人感觉是在模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
-我姑且把它叫做工程师的特殊性.  <span class="comment">---- me</span>
-</code></pre><p> 上面的前言虽说出了口，但有点中二，总给]]>
+我姑且把它叫做工程师的特殊性.                             <span class="comment">---- me</span>
+</code></]]>
     </summary>
     
       <category term="spark" scheme="http://kzx1025.github.io/tags/spark/"/>
