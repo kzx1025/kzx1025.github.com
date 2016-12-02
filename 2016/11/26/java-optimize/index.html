@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="IceKe Blog">
 <meta property="og:description" content="一些要交代的我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&amp;gt; 写常用的spark应用 -&amp;gt; 读spark源码 -&amp;gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优">
 <meta property="og:image" content="http://kzx1025.github.io/img/jvm.jpg">
-<meta property="og:updated_time" content="2016-12-02T09:39:01.000Z">
+<meta property="og:updated_time" content="2016-12-02T13:57:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="论如何调配jvm">
 <meta name="twitter:description" content="一些要交代的我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&amp;gt; 写常用的spark应用 -&amp;gt; 读spark源码 -&amp;gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优">
@@ -372,6 +372,7 @@
 <h3 id="进入老年代你需要多老">进入老年代你需要多老</h3><p>堆中的每一个对象都有自己的年龄。一般情况下，年轻对象存放在年轻代，年老对象存放在年老代。为了做到这点，虚拟机为每个对象都维护一个年龄。如果对象在Eden区，经过一次GC后依然存活，则被移动到Survivor区中，对象年龄加1。以后，如果对象每经过一次GC依然存活，则年龄再加1。当对象年龄达到阈值时，就移入年老代，成为老年对象。这个阈值的最大值可以通过参数-XX:MaxTenuringThreshold来设置，默认值是15。虽然-XX:MaxTenuringThreshold的值可能是15或者更大，但这不意味着新对象非要达到这个年龄才能进入年老代。事实上，对象实际进入年老代的年龄是虚拟机在运行时根据内存使用情况动态计算的(比如说年轻代空间不够了，需要将很多对象提前移入老年代)，这个参数指定的是阈值年龄的最大值。即，实际晋升年老代年龄等于动态计算所得的年龄与-XX:MaxTenuringThreshold中较小的那个。<br> 设置<strong>-XX:MaxTenuringThreshold=1</strong>指年轻对象经过一次GC后便进入老年代.</p>
 <h2 id="其他的一些技巧">其他的一些技巧</h2><h3 id="降低GC时的STW">降低GC时的STW</h3><p>STW即stop the world，垃圾回收时会暂停所有应用线程来用于垃圾回收,首先考虑的是使用关注系统停顿的CMS回收器,因为并发清理这个阶段收集器线程和应用程序线程会并发执行,<strong>–XX:+UseConcMarkSweepGC</strong>年老代使用CMS收集器降低停顿；</p>
 <h3 id="减少full_GC">减少full GC</h3><p>应尽可能将对象预留在年轻代，因为年轻代Young GC的成本远远小于年老代的Full GC。<br>–XX:ParallelGCThreads=20设置 20 个线程进行垃圾回收；<br>–XX:+UseParNewGC年轻代使用并行回收器；<br>–XX:+SurvivorRatio：设置Eden区和Survivor区的比例为 8:1。稍大的Survivor空间可以提高在年轻代回收生命周期较短的对象的可能性，如果Survivor不够大，一些短命的对象可能直接进入年老代，这对系统来说是不利的。<br>–XX:MaxTenuringThreshold设置年轻对象晋升到年老代的年龄。默认值是15次，即对象经过15次Minor GC依然存活，则进入年老代。这里设置为31，目的是让对象尽可能地保存在年轻代区域。</p>
+<p>最后附上一个介绍jvm参数配置大全的文章：<a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html" target="_blank" rel="external">文章地址</a></p>
 
       
     </div>

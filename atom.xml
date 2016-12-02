@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2016-12-02T13:48:21.000Z</updated>
+  <updated>2016-12-02T13:54:11.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -19,10 +19,10 @@
     <link href="http://kzx1025.github.io/2016/11/30/groupByKey-design/"/>
     <id>http://kzx1025.github.io/2016/11/30/groupByKey-design/</id>
     <published>2016-11-30T09:20:00.000Z</published>
-    <updated>2016-12-02T13:48:21.000Z</updated>
+    <updated>2016-12-02T13:54:11.000Z</updated>
     <content type="html"><![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
 我姑且把它叫做工程师的调性.                             <span class="comment">---- 我</span>
-</code></pre><p> 上面的前言虽说出了口，但总体有点中二，总给人感觉是在模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”但总感觉不得不说出来，尝试是一个可以让人投入他所有的激情和年华在一件事上的词，此事未必带来较大的意义，但尝试会给这个人信念。如果将此作为自己做事的方法论，那我必然是务必佩服他的。此话绝非我刻意在技术笔记中加上一些鸡汤（对于鸡汤这种事，我绝不是向大多数网友那样厌恶，我觉得能在理性的范围内给人带来正能量的东西，它绝对差不到哪里去），恰恰是我在生活中遇到一些人和事，我需要把我的所想敞开在这儿，至于为什么不单独写，那纯属是因为我懒，写不了那么大篇幅的。<br>//TODO</p>
+</code></pre><p> 上面的前言虽说出了口，但总体有点中二，总给人感觉是在模仿鸣人站在所有boss面前嚎着：“这就是我的忍道！”但总感觉不得不说出来，尝试是一个可以让人投入他所有的激情和年华在一件事上的词，此事未必带来较大的意义，但尝试会给这个人信念。如果将此作为自己做事的方法论，那我必然是无比佩服他的。此话绝非我刻意在技术笔记中加上一些鸡汤（对于鸡汤这种事，我绝不是向大多数网友那样厌恶，我觉得能在理性的范围内给人带来正能量的东西，它绝对差不到哪里去），恰恰是我在生活中遇到一些人和事，我需要把我的所想敞开在这儿，至于为什么不单独写，那纯属是因为我懒，写不了那么大篇幅的。<br>//TODO</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<pre><code>一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
@@ -68,7 +68,7 @@
     <link href="http://kzx1025.github.io/2016/11/26/java-optimize/"/>
     <id>http://kzx1025.github.io/2016/11/26/java-optimize/</id>
     <published>2016-11-26T14:20:00.000Z</published>
-    <updated>2016-12-02T09:39:01.000Z</updated>
+    <updated>2016-12-02T13:57:33.000Z</updated>
     <content type="html"><![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码 -&gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优化，毕竟spark这种分布式系统很多都跑在jvm上。附上<strong><a href="https://spark.apache.org/docs/latest/tuning.html" target="_blank" rel="external">spark团队给的优化向导地址</a></strong>，里面有一部分讲的就是垃圾回收策略的选择与调控。</p>
 <p>好的，让我们来快速聊下jvm^_^<br><strong>jvm的构成</strong>: jvm区域总体分两类，heap区和非heap区。heap区又分：Eden Space（伊甸园）、Survivor Space(幸存者区)、TenuredGen（老年代-养老区）。非heap区又分：Code Cache(代码缓存区)、Perm Gen（永久代）、Jvm Stack(java虚拟机栈)、Local Method Statck(本地方法栈)。<br><img src="/img/jvm.jpg" alt=""><br>曾经看过一个举例很形象，大致解释了下jvm对象的生与死。<br>假设你是一个普通的Java对象，你出生在Eden区，在Eden区有许多和你差不多的小兄弟、小姐妹，可以把Eden区当成幼儿园,在这个幼儿园里大家玩了很长时间。Eden区不能无休止地放你们在里面，所以当年纪稍大，你就要被送到学校去上学，这里假设从小学到高中都称为 Survivor区。开始的时候你在Survivor区里面划分出来的的“From”区，读到高年级了，就进了Survivor区的“To”区，中间由于学习成绩不稳定，还经常来回折腾。(这里指发生了18次young GC)直到18岁的时候，高中毕业了，该去社会上闯闯了。于是你就去了年老代，年老代里面人也很多。在年老代里,你生活了20年每次GC加一岁),最后寿终正寝，被GC回收。有一点没有提，你在年老代遇到了一个同学，他的名字叫海绵宝宝，他以及他的海绵家族永远不会死，那么他们就生活在永生代。<br>这里解释下永生代，这里面放着jvm不会去主动回收的东西，如类模版对象，方法模版对象，还有在JDK7之前的HotSpot虚拟机中，字符串常量池的字符串被存储在永久代中，因此导致了一系列的性能问题和内存溢出错误。所以在java8中移除了永生代，迎来了元空间。</p>
 <h2 id="让年轻代大一点">让年轻代大一点</h2><h3 id="较大的年轻代">较大的年轻代</h3><p>由于Full GC的成本远远高于MinorGC，因此某些情况下需要尽可能将对象分配在年轻代，这在很多情况下是一个明智的选择。虽然在大部分情况下，JVM会先尝试在Eden区分配对象，但是由于空间紧张等问题，很可能不得不将部分年轻对象提前向年老代压缩。因此，在JVM参数调优时可以为应用程序分配一个合理的年轻代空间，以最大限度避免新对象直接进入年老代的情况发生。而且如果<br>JVM参数可以设置<strong>-XX:+PrintGCDetails -Xmx20M -Xms20M</strong>，这时候指jvm堆空间设置的初始内存为20M，最大也为20M。个人认为大部分情况下(比如你大概可以预估到你的程序所占内存有多大)初始堆内存和最大堆内存设置得相同较为合理一点，这样减少了jvm堆空间拓展的开销，因为如果虚拟机启动时设置使用的内存比较小，这个时候又需要初始化很多对象，虚拟机就必须重复地增加内存。分配足够大的年轻代空间，使用JVM参数<strong>-XX:+PrintGCDetails -Xmx20M -Xms20M-Xmn6M</strong>,年轻代大小为6M。</p>
@@ -77,6 +77,7 @@
 <h3 id="进入老年代你需要多老">进入老年代你需要多老</h3><p>堆中的每一个对象都有自己的年龄。一般情况下，年轻对象存放在年轻代，年老对象存放在年老代。为了做到这点，虚拟机为每个对象都维护一个年龄。如果对象在Eden区，经过一次GC后依然存活，则被移动到Survivor区中，对象年龄加1。以后，如果对象每经过一次GC依然存活，则年龄再加1。当对象年龄达到阈值时，就移入年老代，成为老年对象。这个阈值的最大值可以通过参数-XX:MaxTenuringThreshold来设置，默认值是15。虽然-XX:MaxTenuringThreshold的值可能是15或者更大，但这不意味着新对象非要达到这个年龄才能进入年老代。事实上，对象实际进入年老代的年龄是虚拟机在运行时根据内存使用情况动态计算的(比如说年轻代空间不够了，需要将很多对象提前移入老年代)，这个参数指定的是阈值年龄的最大值。即，实际晋升年老代年龄等于动态计算所得的年龄与-XX:MaxTenuringThreshold中较小的那个。<br> 设置<strong>-XX:MaxTenuringThreshold=1</strong>指年轻对象经过一次GC后便进入老年代.</p>
 <h2 id="其他的一些技巧">其他的一些技巧</h2><h3 id="降低GC时的STW">降低GC时的STW</h3><p>STW即stop the world，垃圾回收时会暂停所有应用线程来用于垃圾回收,首先考虑的是使用关注系统停顿的CMS回收器,因为并发清理这个阶段收集器线程和应用程序线程会并发执行,<strong>–XX:+UseConcMarkSweepGC</strong>年老代使用CMS收集器降低停顿；</p>
 <h3 id="减少full_GC">减少full GC</h3><p>应尽可能将对象预留在年轻代，因为年轻代Young GC的成本远远小于年老代的Full GC。<br>–XX:ParallelGCThreads=20设置 20 个线程进行垃圾回收；<br>–XX:+UseParNewGC年轻代使用并行回收器；<br>–XX:+SurvivorRatio：设置Eden区和Survivor区的比例为 8:1。稍大的Survivor空间可以提高在年轻代回收生命周期较短的对象的可能性，如果Survivor不够大，一些短命的对象可能直接进入年老代，这对系统来说是不利的。<br>–XX:MaxTenuringThreshold设置年轻对象晋升到年老代的年龄。默认值是15次，即对象经过15次Minor GC依然存活，则进入年老代。这里设置为31，目的是让对象尽可能地保存在年轻代区域。</p>
+<p>最后附上一个介绍jvm参数配置大全的文章：<a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html" target="_blank" rel="external">文章地址</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="一些要交代的">一些要交代的</h2><p>我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码]]>
