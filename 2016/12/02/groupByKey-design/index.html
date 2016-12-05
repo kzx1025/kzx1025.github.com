@@ -97,7 +97,7 @@
 我姑且把它叫做工程师的调性. 
 现有的工作与策略上面的前言虽说出了口，却又觉得中二，给人一种鸣人站在所有boss面前嚎着：“这就是我的忍道！”的既视感。但总觉得不得不说出来，而且是认真的那种。尝试嘛，是一个可以让人投入他所有的激情和年华在一件事上的词，此事未必带来较大的意义，但此事在经过尝试给人以信念后，会让他这一生变得">
 <meta property="og:image" content="http://kzx1025.github.io/img/map.jpg">
-<meta property="og:updated_time" content="2016-12-05T13:18:16.000Z">
+<meta property="og:updated_time" content="2016-12-05T14:59:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="摸索性重写Spark的groupByKey(shuffle部分)">
 <meta name="twitter:description" content="一开始实现这个特性的时候，我并不能预见其性能是否可以优化，但是不可以不尝试。
@@ -390,7 +390,7 @@
 <pre><code><span class="number">1.</span>减少了大量的<span class="built_in">key</span>的查询，因为很多相同<span class="built_in">key</span>的<span class="built_in">value</span>已经在<span class="built_in">value</span>端聚合在一起了。
 <span class="number">2.</span>shuffle文件比原有的size要小，减少了网络的传输。
 </code></pre><p>不过效果算得上微乎其微。最要命的是，write端由于多余的聚合操作，运行时间从2.8min提高到约4min。。平心而论，算得上失败的一次尝试了。</p>
-<h2 id="后续">后续</h2><p>对于优化效果我是存有疑问的，read端不至于优化效果如此微小，这方面我暂时不想达到微小的工作这个水平。<br>后来我在代码中加了一些log，发现shuffle的map端内存中聚合是写文件花费时间的好几倍，这里的原因是原数据文件中相同key的value并不多，我查了一下大概就四十多个，也就是不存在hot key。所以shuffle文件的大小在加不加mapsideCombine的两种情况下相差并不大，所以当key的数量很少时，有mapSideCombine的groupByKey性能才回更有优势，insertSorter和write之间需要达到一种平衡。这个我正在做测试。<br>不过也给了一种启发，如果每个partition相同的key不多，而且每个key存在大量value时，采用mapsideCombine的groupBykey是一个不错的选择。</p>
+<h2 id="后续">后续</h2><p>对于优化效果我是存有疑问的，read端不至于优化效果如此微小，这方面我暂时不想达到微小的工作这个水平。<br>//12月5日更新<br>后来我在代码中加了一些log，发现shuffle的map端内存中聚合是写文件花费时间的好几倍，这里的原因是原数据文件中相同key的value并不多，我查了一下大概就四十多个，也就是不存在hot key。所以shuffle文件的大小在加不加mapsideCombine的两种情况下相差并不大，所以当key的数量很少时，有mapSideCombine的groupByKey性能才回更有优势，insertSorter和write之间需要达到一种平衡。这个我正在做测试。<br>不过也给了一种启发，如果每个partition相同的key不多，而且每个key存在大量value时，采用mapsideCombine的groupBykey是一个不错的选择。</p>
 
       
     </div>
