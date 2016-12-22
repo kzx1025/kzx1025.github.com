@@ -316,7 +316,7 @@
     <link href="http://kzx1025.github.io/2016/09/28/spark-bug/"/>
     <id>http://kzx1025.github.io/2016/09/28/spark-bug/</id>
     <published>2016-09-28T07:39:47.000Z</published>
-    <updated>2016-12-22T03:17:45.000Z</updated>
+    <updated>2016-12-22T03:23:07.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Spark将数据放在jvm堆外导致无故卡死">Spark将数据放在jvm堆外导致无故卡死</h2><h3 id="思路实现与问题产生">思路实现与问题产生</h3><p>咱们内存计算小组陆博的文章Deca经过一年的努力终于中了vldb,作为其中参与了一些微小的工作的男人,虽然对其中一部分细节不是太清楚,因为这个Deca系统的开发涉及到将近5个人,我的工作囊括一下就是: </p>
 <pre><code><span class="number">1.</span>完成了其中UDF的转换,将方法的操作转为对字节数组的操作;
 <span class="number">2.</span>手写了Deca的手动版的代码,就是利用Deca的思想对Spark应用的代码进行改造;
@@ -330,7 +330,7 @@
 <p>stage卡住图示:<br><img src="/img/2.jpg" alt="stage卡住"></p>
 <p>而且还有一个特殊的症状:就是PR跑2G数据量的时候居然不会挂掉,一到7G和20G的时候就会挂掉.而且local模式不会出错,一个executor也不会出错,一旦增加到多个executor就会出错.</p>
 <h3 id="Bug原因分析与结论">Bug原因分析与结论</h3><p>一开始想到的原因是shuffle的问题,因为local和单个executor不会出错,一旦涉及到网络传输就会报错.我怀疑是不是序列化方式的问题,分别用kryo和java自带的序列化方式测试了一下,然而都会报错.后来想了想应该不是网络传输的问题,不然小数据量怎么可以通过.我上网查了一下jvm crash那段报错信息,基本都是由于Unsafe访问到非法位置的原因,于是开始往这个方向考虑.</p>
-<p>最后与师兄讨论中意识到问题的关键所在,首先Spark一个executor执行task比较慢时,如果另一个executor执行完一个stage的所有task时,会将剩余的task调度到那个节点去执行,也就是non-local task.non-local task是从网络传输过去的,这个策略也就是延迟调度策略.这部分task是由cache RDD的partition生成而来的,这部分task是从block manager过去的,然而partition中的UnsafeEdge对象中只有一个Unsafe成员变量,一个初始地址和终点地址,和分配在jvm堆内的对象不同,并不携带真正的数据.所以这个task被调度到其他executor时,自然会非法访问堆外内存,然后jvm crash掉,这也可以解释为什么stage中位置为Any的task都不能成功执行这个现象.至于2G的数据量为什么可以通过,因为task运行的时间很短,几乎不需要调度就可以在一个executor中全部完成.</p>
+<p>最后与师兄讨论中意识到问题的关键所在,首先Spark中一个task在相应的节点没有可空闲的资源来启动task,如果等待一定时间(可配置)还是没有资源则调度到其他节点去执行,也就是non-local task.non-local task是从网络传输过去的,这个策略也就是延迟调度策略.这部分task是由cache RDD的partition生成而来的,这部分task是从block manager过去的,然而partition中的UnsafeEdge对象中只有一个Unsafe成员变量,一个初始地址和终点地址,和分配在jvm堆内的对象不同,并不携带真正的数据.所以这个task被调度到其他executor时,自然会非法访问堆外内存,然后jvm crash掉,这也可以解释为什么stage中位置为Any的task都不能成功执行这个现象.至于2G的数据量为什么可以通过,因为task运行的时间很短,几乎不需要调度就可以在一个executor中全部完成.</p>
 <p>所以解决方案就是尽量不让task调度到其他的executor上执行,可以尽量增大spark.locality.wait这个变量来避免出错.</p>
 <h2 id="硕大的cache数据">硕大的cache数据</h2><pre><code>这个就简洁地介绍一下了,这是我大概<span class="number">11</span>月<span class="number">10</span>号遇见的
 </code></pre><h3 id="背景">背景</h3><p>关于shuffle的VST拆解部分需要加到论文修改中,不过在意外中我发现了之前Deca release1.0版本的一个bug.那就是由于Deca将cache数据的对象完全转化为字节数组存储在jvm中,但是吊诡的现象在于Deca cache的数据居然比原生Spark的还大,这明显是不合理的.初看了一下代码发现是没有问题的.于是联系已经毕业的裴师兄,他说他之前就遇到这个问题了,只不过一直没改.这应该就是传说中的前人挖坑,后人填坑.但我同时也是很兴奋的,因为我们之前手动版本的实验结果很合理,改动Spark内核的自动版本也是同样地思路和流程,但是却出现了这种奇怪的现象,你知道解决bug是一个很能产生成就感的一个举措.在SparkContext将cache的RDD的迭代器做了一次调整,生成一个新的RDD并cache,然后将原本cache的RDD释放掉,重新调整一下RDD链,这样缓存的RDD将会被我们生成的RDD替换掉.之前对缓存的RDD所做的操作是:将里面返回KV对的迭代器改写一下,变换成往一个字节数组缓冲区写字节数组(按顺序写),然后返回新的迭代器.</p>
