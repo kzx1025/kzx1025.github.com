@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2016-12-16T19:01:38.000Z</updated>
+  <updated>2016-12-23T15:30:16.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -15,14 +15,15 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[一些生活牢骚]]></title>
+    <title><![CDATA[生活记录]]></title>
     <link href="http://kzx1025.github.io/2016/12/16/life/"/>
     <id>http://kzx1025.github.io/2016/12/16/life/</id>
     <published>2016-12-16T12:20:00.000Z</published>
-    <updated>2016-12-16T19:01:38.000Z</updated>
+    <updated>2016-12-23T15:30:16.000Z</updated>
     <content type="html"><![CDATA[<p>lab杨和paper明对我拿吹风机吹脚这件事似乎抱有一定成见，我想说的是吹脚并不是因为我脚板底有毛，而是上面有水，如此一说这个行为看上去就很合理。毕竟吹风机是用来把水吹干，而不是吹掉毛发的，所以不会仅局限于头部，我想往后我还会将它应用于更多的地方。–2016.12.14</p>
-<p>Leetcode的hard难度不愧为hard难度哈，虽然有思路但终究是不能通过全部test，操蛋得很。忍不住看看讨论区大神们的做法：我刚才在写什么?? forget it.–2016.12.16</p>
+<p>Leetcode的hard难度不愧为hard难度哈，虽然有思路但终究是不能通过全部test，操蛋得很。忍不住看看讨论区大神们的做法：我刚才在写什么?? forget it。 –2016.12.16</p>
 <p>不定时会发现朋友圈部分人发着一段一段“青春伤感文学”的文字，我姑且这么称呼它的原因是它大多时候包含但不仅限于这几个元素：情爱，酒，民谣，怀念。我作为严肃文学的爱好者，并不是想要把异己拿出来批判一番，但是总是感觉这种文字看似说了一大段，但意味不明，它仿佛要表达很多，但多的又不知道想表达什么。我估摸着大概就是写给自己看的，既然是自己看我也便提不出什么要求，但还是会夹带些许好奇，这些好奇我倘若是都放在技术问题上，我想自己还会有更多的进步。 –2016.12.17</p>
+<p>总算发现一本算比较详细介绍Spark内核源码的书了，虽然只是gitbook的形式。<a href="https://spark-internals.books.yourtion.com" target="_blank" rel="external">https://spark-internals.books.yourtion.com</a>   – 2016.12.23</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>lab杨和paper明对我拿吹风机吹脚这件事似乎抱有一定成见，我想说的是吹脚并不是因为我脚板底有毛，而是上面有水，如此一说这个行为看上去就很合理。毕竟吹风机是用来把水吹干，而不是吹掉毛发的，所以不会仅局限于头部，我想往后我还会将它应用于更多的地方。–2016.12.14</]]>
@@ -39,7 +40,7 @@
     <link href="http://kzx1025.github.io/2016/12/14/backtrack/"/>
     <id>http://kzx1025.github.io/2016/12/14/backtrack/</id>
     <published>2016-12-14T13:20:00.000Z</published>
-    <updated>2016-12-15T03:05:53.000Z</updated>
+    <updated>2016-12-23T15:30:24.000Z</updated>
     <content type="html"><![CDATA[<p>void backtrack (int t)</p>
 <p>{</p>
 <pre><code><span class="keyword">if</span> (t &gt; <span class="keyword">n</span>) {
@@ -377,23 +378,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[我为什么要写博客]]></title>
-    <link href="http://kzx1025.github.io/2016/09/09/first/"/>
-    <id>http://kzx1025.github.io/2016/09/09/first/</id>
-    <published>2016-09-08T16:00:59.000Z</published>
-    <updated>2016-12-16T08:01:22.000Z</updated>
-    <content type="html"><![CDATA[<p>因为我开始意识到写东西是有乐趣的，我不想有一些想法过上一段时间就在我脑中死去，我得想办法把它记录下来。<br>而这是一个很不错的办法。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>因为我开始意识到写东西是有乐趣的，我不想有一些想法过上一段时间就在我脑中死去，我得想办法把它记录下来。<br>而这是一个很不错的办法。</p>
-]]>
-    </summary>
-    
-      <category term="扯淡学" scheme="http://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[借天池中间件复赛谈NIO]]></title>
     <link href="http://kzx1025.github.io/2016/08/15/tianchi-nio/"/>
     <id>http://kzx1025.github.io/2016/08/15/tianchi-nio/</id>
@@ -419,6 +403,23 @@
       <category term="java" scheme="http://kzx1025.github.io/tags/java/"/>
     
       <category term="天池" scheme="http://kzx1025.github.io/tags/%E5%A4%A9%E6%B1%A0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[我为什么要写博客]]></title>
+    <link href="http://kzx1025.github.io/2016/08/08/first/"/>
+    <id>http://kzx1025.github.io/2016/08/08/first/</id>
+    <published>2016-08-07T16:00:59.000Z</published>
+    <updated>2016-12-23T14:10:05.000Z</updated>
+    <content type="html"><![CDATA[<p>因为我开始意识到写东西是有乐趣的，我不想有一些想法过上一段时间就在我脑中死去，我得想办法把它记录下来。<br>而这是一个很不错的办法。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>因为我开始意识到写东西是有乐趣的，我不想有一些想法过上一段时间就在我脑中死去，我得想办法把它记录下来。<br>而这是一个很不错的办法。</p>
+]]>
+    </summary>
+    
+      <category term="扯淡学" scheme="http://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
     
   </entry>
   
