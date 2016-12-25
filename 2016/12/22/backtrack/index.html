@@ -87,18 +87,21 @@
 
 
 <meta name="description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
-介绍一下它###概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。">
+介绍一下它概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+回溯">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈回溯法">
 <meta property="og:url" content="http://kzx1025.github.io/2016/12/22/backtrack/index.html">
 <meta property="og:site_name" content="IceKe Blog">
 <meta property="og:description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
-介绍一下它###概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。">
-<meta property="og:updated_time" content="2016-12-25T16:49:03.000Z">
+介绍一下它概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+回溯">
+<meta property="og:updated_time" content="2016-12-25T17:00:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈回溯法">
 <meta name="twitter:description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
-介绍一下它###概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。">
+介绍一下它概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+回溯">
 
 
 
@@ -367,7 +370,7 @@
 
       
         <h2 id="前言">前言</h2><p>起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。<a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="external">该题地址</a>，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。</p>
-<h2 id="介绍一下它">介绍一下它</h2><p>###概念<br>回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
+<h2 id="介绍一下它">介绍一下它</h2><h3 id="概念">概念</h3><p>回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
 <p>回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。(许多复杂的，规模较大的问题都可以使用回溯法)</p>
 <h3 id="基本思想">基本思想</h3><p>在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯。（其实回溯法就是对隐式图的深度优先搜索算法）。</p>
 <h3 id="解题三步骤">解题三步骤</h3><p>1）定义问题的解空间<br>如0-1背包问题，当n=3时，解空间是(0,0,0)、(0,0,1)、(0,1,0)、(0,1,1)、(1,0,0)、(1,0,1)、(1,1,0)、(1,1,1)。1代表选择该物品，0代表不选择该物品<br>2）确定易搜索的解空间结构<br>3）以深度优先方式搜索解空间，并在搜索过程中用剪枝函数避免无效搜索</p>
@@ -619,7 +622,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍一下它"><span class="nav-number">2.</span> <span class="nav-text">介绍一下它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想"><span class="nav-number">2.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题三步骤"><span class="nav-number">2.2.</span> <span class="nav-text">解题三步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法思路"><span class="nav-number">3.</span> <span class="nav-text">算法思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子集树"><span class="nav-number">3.1.</span> <span class="nav-text">子集树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排列树"><span class="nav-number">3.2.</span> <span class="nav-text">排列树</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍一下它"><span class="nav-number">2.</span> <span class="nav-text">介绍一下它</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想"><span class="nav-number">2.2.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题三步骤"><span class="nav-number">2.3.</span> <span class="nav-text">解题三步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法思路"><span class="nav-number">3.</span> <span class="nav-text">算法思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子集树"><span class="nav-number">3.1.</span> <span class="nav-text">子集树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排列树"><span class="nav-number">3.2.</span> <span class="nav-text">排列树</span></a></li></ol></li></ol></div>
             
 
           </div>
