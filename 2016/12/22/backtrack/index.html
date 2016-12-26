@@ -86,22 +86,22 @@
 
 
 
-<meta name="description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
+<meta name="description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
 介绍一下它概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
-回溯">
+回溯法是一种选优搜索">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈回溯法">
 <meta property="og:url" content="http://kzx1025.github.io/2016/12/22/backtrack/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
+<meta property="og:description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
 介绍一下它概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
-回溯">
-<meta property="og:updated_time" content="2016-12-25T17:09:49.000Z">
+回溯法是一种选优搜索">
+<meta property="og:updated_time" content="2016-12-26T02:34:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈回溯法">
-<meta name="twitter:description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
+<meta name="twitter:description" content="前言起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。该题地址，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。
 介绍一下它概念回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
-回溯">
+回溯法是一种选优搜索">
 
 
 
@@ -369,7 +369,7 @@
       
 
       
-        <h2 id="前言">前言</h2><p>起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。<a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="external">该题地址</a>，类似的还有集体，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。</p>
+        <h2 id="前言">前言</h2><p>起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。<a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="external">该题地址</a>，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。</p>
 <h2 id="介绍一下它">介绍一下它</h2><h3 id="概念">概念</h3><p>回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
 <p>回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。(许多复杂的，规模较大的问题都可以使用回溯法)</p>
 <h3 id="基本思想">基本思想</h3><p>在包含问题的所有解的解空间树中，按照深度优先搜索的策略，从根结点出发深度探索解空间树。当探索到某一结点时，要先判断该结点是否包含问题的解，如果包含，就从该结点出发继续探索下去，如果该结点不包含问题的解，则逐层向其祖先结点回溯。（其实回溯法就是对隐式图的深度优先搜索算法）。</p>
