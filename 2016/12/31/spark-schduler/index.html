@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Spark," />
 
 
 
@@ -86,15 +86,18 @@
 
 
 
-<meta name="description" content="stay simple, stay naive">
-<meta property="og:type" content="website">
-<meta property="og:title" content="IceKe Blog">
-<meta property="og:url" content="http://kzx1025.github.io/tags/java/index.html">
+<meta name="description" content="OverviewSpark现在已经更迭到2.0了，之前基本都在1.4版本的代码上涂涂改改，着实有点跟不上Spark更新的速度了，最近大概看了Spark2.0相比于1.4更新的点，外壳方面增加了一个SparkSession的类，用户不再显式调用SparkContext了，初看还是挺别扭的。在1.6中加了统一内存管理，比以往更加细粒度的管理内存了，因为内存界限不再是static congigure。不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从源码看Spark调度机制">
+<meta property="og:url" content="http://kzx1025.github.io/2016/12/31/spark-schduler/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="stay simple, stay naive">
+<meta property="og:description" content="OverviewSpark现在已经更迭到2.0了，之前基本都在1.4版本的代码上涂涂改改，着实有点跟不上Spark更新的速度了，最近大概看了Spark2.0相比于1.4更新的点，外壳方面增加了一个SparkSession的类，用户不再显式调用SparkContext了，初看还是挺别扭的。在1.6中加了统一内存管理，比以往更加细粒度的管理内存了，因为内存界限不再是static congigure。不">
+<meta property="og:image" content="http://kzx1025.github.io/img/spark-shuffle-evolution.jpg">
+<meta property="og:image" content="http://kzx1025.github.io/img/deploy.jpg">
+<meta property="og:updated_time" content="2016-12-29T14:12:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IceKe Blog">
-<meta name="twitter:description" content="stay simple, stay naive">
+<meta name="twitter:title" content="从源码看Spark调度机制">
+<meta name="twitter:description" content="OverviewSpark现在已经更迭到2.0了，之前基本都在1.4版本的代码上涂涂改改，着实有点跟不上Spark更新的速度了，最近大概看了Spark2.0相比于1.4更新的点，外壳方面增加了一个SparkSession的类，用户不再显式调用SparkContext了，初看还是挺别扭的。在1.6中加了统一内存管理，比以往更加细粒度的管理内存了，因为内存界限不再是static congigure。不">
 
 
 
@@ -122,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://kzx1025.github.io/tags/java/"/>
+  <link rel="canonical" href="http://kzx1025.github.io/2016/12/31/spark-schduler/"/>
 
 
 
 
 
-  <title> 标签: java | IceKe Blog </title>
+  <title> 从源码看Spark调度机制 | IceKe Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -159,7 +162,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -272,74 +275,179 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        java
-        <small>标签</small>
-      </h2>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/11/26/java-optimize/" itemprop="url">
-              
-                <span itemprop="name">论如何调配jvm</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-11-26T22:20:00+08:00"
-              content="2016-11-26" >
-          11-26
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/08/15/tianchi-nio/" itemprop="url">
-              
-                <span itemprop="name">借天池中间件复赛谈NIO</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-08-15T20:20:00+08:00"
-              content="2016-08-15" >
-          08-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
 
   
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://kzx1025.github.io/2016/12/31/spark-schduler/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="IceKe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://ww3.sinaimg.cn/mw690/9f4f8aecjw8evoivlefirj20k00k0gop.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="IceKe Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="IceKe Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                从源码看Spark调度机制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-12-31T21:20:00+08:00">
+                2016-12-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/2016/12/31/spark-schduler/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/31/spark-schduler/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Overview">Overview</h2><p>Spark现在已经更迭到2.0了，之前基本都在1.4版本的代码上涂涂改改，着实有点跟不上Spark更新的速度了，最近大概看了Spark2.0相比于1.4更新的点，外壳方面增加了一个SparkSession的类，用户不再显式调用SparkContext了，初看还是挺别扭的。在1.6中加了统一内存管理，比以往更加细粒度的管理内存了，因为内存界限不再是static congigure。<br>不过之前看到别人的文章在这方面提到过一个弊病，那篇文章的名字叫《向Spark开炮：1.6版本问题总结与趟坑》，名字听着很具有雄性的震慑力，看了之后发现开的炮还是有理有据的，在统一内存管理模块，该文提到：默认情况下executor-memory的75%会拿出来供存储内存和运行内存使用（各占一半），存储内存和运行内存可以相互借用，避免了浪费的情况，有效的提高了内存的使用率。听起来是挺好的，但是运行任务的时候发现了一个问题：存储内存把所有内存占完了，Shuffle的时候它再慢慢从内存中剔除，多浪费了一次加载和剔除的时间。为什么会发生这种情况呢？因为Cache操作发生在Shuffle操作之前，这个时候运行内存是空闲的，它就顺势把运行内存给占完了，有点类似贪心的意味，等进行Shuffle操作的时候，已无内存可用，只能要求存储内存归还。<br>还有在看Spark1.6的shuffle部分代码时，发现ExternalSorter在插入记录时，内存预估直接决定是否将buffer持久化到磁盘上，而没有了是否要spill的判断，后来看了一下官方的api，果不其然1.6版本移除了这个配置，其实当时就觉得这个功能挺鸡肋的，用户除非有十足的把握shuffle内存足够，不然谁会愿意将spill设置为true，等着程序报错呢。这种判断应该完全交给系统本身去做，虽然系统中也是预估，但总比人为推测靠谱一点。<br>还有一个大一点的变化是：shuffle版本的不断更迭。在1.5版本时开始Tungsten钨丝计划，引入UnSafe Shuffle优化内存及CPU的使用，大致思想就是将对象存放在堆外，一个很大的好处就是减少GC。在1.6中将Tungsten统一到Sort Shuffle中，实现自我感知选择最佳Shuffle方式到最近的2.0版本，Hash Shuffle已被删除，所有Shuffle方式全部统一到Sort Shuffle一个实现中。到头来还是沿用了mapreduce始祖hadoop的方式，哈哈。下图是spark shuffle版本的演进：<br><img src="img/spark-shuffle-evolution.jpg" alt=""></p>
+<p>当然新版本更新的特性要比我说得多得多，我只是拿我自己看到的一些点说一下.上面这些并不算赘述，恰恰是想说Spark是一个非常有活力的系统，它的很多特性都在保持着探索更佳的状态，但是不可忽略的一点是，它的一些核心思想不会变，所以看老版本的代码并不会让你觉得在浪费时间，而会让你在看到新版本的时候有更多的感悟。之前因为Shuffle部分的代码看得比较多，也改了挺多。所以在此想总结点自己不太熟悉的东西，关于Spark调度这块。<br>在此盗一张关于调度的架构图：（此图来源于<a href="https://github.com/JerryLead/SparkInternals" target="_blank" rel="external">github地址</a>）<br><img src="img/deploy.jpg" alt=""></p>
+<h2 id="关于Job">关于Job</h2><p><strong>driver端调用顺序</strong><br>‘’’<br>finalRDD.action()<br>=&gt; sc.runJob()</p>
+<p>// generate job, stages and tasks<br>=&gt; dagScheduler.runJob()<br>=&gt; dagScheduler.submitJob()<br>=&gt; DAGSchedulerEventProcessLoop.post(JobSubmitted)<br>=&gt; dagSchedulerEventProcessLoop.doOnReceive(case JobSubmitted())<br>=&gt; dagScheduler.handleJobSubmitted()<br>=&gt; finalStage = newStage()<br>=&gt;   mapOutputTracker.registerShuffle(shuffleId, rdd.partitions.size)<br>=&gt; dagScheduler.submitStage()<br>=&gt;   missingStages = dagScheduler.getMissingParentStages()<br>=&gt; dagScheduler.subMissingTasks(readyStage)</p>
+<p>// add tasks to the taskScheduler<br>=&gt; taskScheduler.submitTasks(new TaskSet(tasks))<br>=&gt; schedulableBuilder(fifo or fair).addTaskSetManager(taskSet)</p>
+<p>// send tasks<br>=&gt; sparkDeploySchedulerBackend.reviveOffers()<br>=&gt; driverActor ! ReviveOffers<br>=&gt; sparkDeploySchedulerBackend.makeOffers()<br>=&gt; sparkDeploySchedulerBackend.launchTasks()<br>=&gt; foreach task<br>      CoarseGrainedExecutorBackend(executorId) ! LaunchTask(serializedTask)<br>‘’’<br><strong>解释一下最后的分配Task</strong><br>sparkDeploySchedulerBackend接收到taskSet后，会通过自带的DriverActor将serialized tasks发送到调度器指定的worker node上的CoarseGrainedExecutorBackend Actor上。</p>
+<p>Worker 端接收到 tasks 后，执行如下操作<br>coarseGrainedExecutorBackend ! LaunchTask(serializedTask)<br>=&gt; executor.launchTask()<br>=&gt; executor.threadPool.execute(new TaskRunner(taskId, serializedTask))<br>executor将task包装成taskRunner，并从线程池中抽取出一个空闲线程运行task。一个CoarseGrainedExecutorBackend进程有且仅有一个executor对象。<br>//TODO</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/22/backtrack/" rel="next" title="谈回溯法">
+                <i class="fa fa-chevron-left"></i> 谈回溯法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/12/31/spark-schduler/"
+     data-title="从源码看Spark调度机制"
+     data-content=""
+     data-url="http://kzx1025.github.io/2016/12/31/spark-schduler/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
 
 
           </div>
@@ -347,6 +455,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/31/spark-schduler/"
+           data-title="从源码看Spark调度机制" data-url="http://kzx1025.github.io/2016/12/31/spark-schduler/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -366,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="http://ww3.sinaimg.cn/mw690/9f4f8aecjw8evoivlefirj20k00k0gop.jpg"
@@ -455,6 +580,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Job"><span class="nav-number">2.</span> <span class="nav-text">关于Job</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
     </div>
   </aside>
@@ -541,6 +682,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
