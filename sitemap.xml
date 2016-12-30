@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://kzx1025.github.io/2016/12/31/spark-schduler/</loc>
+    <lastmod>2016-12-30T17:23:45.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://kzx1025.github.io/2016/12/14/life/</loc>
     <lastmod>2016-12-30T17:14:46.000Z</lastmod>
   </url>
@@ -14,11 +19,6 @@
   <url>
     <loc>http://kzx1025.github.io/2016/08/08/first/</loc>
     <lastmod>2016-12-30T17:04:53.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://kzx1025.github.io/2016/12/31/spark-schduler/</loc>
-    <lastmod>2016-12-30T09:08:10.000Z</lastmod>
   </url>
   
   <url>
