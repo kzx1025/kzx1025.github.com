@@ -94,7 +94,7 @@
 <meta property="og:description" content="OverviewSpark现在已经更迭到2.0了，之前基本都在1.4版本的代码上涂涂改改，着实有点跟不上Spark更新的速度了，最近大概看了Spark2.0相比于1.4更新的点，外壳方面增加了一个SparkSession的类，用户不再显式调用SparkContext了，初看还是挺别扭的。在1.6中加了统一内存管理，比以往更加细粒度的管理内存了，因为内存界限不再是static congigure。不">
 <meta property="og:image" content="http://kzx1025.github.io/img/spark-shuffle-evolution.jpg">
 <meta property="og:image" content="http://kzx1025.github.io/img/deploy.jpg">
-<meta property="og:updated_time" content="2017-01-03T03:41:38.000Z">
+<meta property="og:updated_time" content="2017-01-05T13:50:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从源码看Spark的Job执行">
 <meta name="twitter:description" content="OverviewSpark现在已经更迭到2.0了，之前基本都在1.4版本的代码上涂涂改改，着实有点跟不上Spark更新的速度了，最近大概看了Spark2.0相比于1.4更新的点，外壳方面增加了一个SparkSession的类，用户不再显式调用SparkContext了，初看还是挺别扭的。在1.6中加了统一内存管理，比以往更加细粒度的管理内存了，因为内存界限不再是static congigure。不">
@@ -372,7 +372,7 @@
 <p>finalRDD.action()<br>=&gt; sc.runJob()</p>
 <p>// generate job, stages and tasks<br>=&gt; dagScheduler.runJob()<br>=&gt; dagScheduler.submitJob()<br>=&gt; DAGSchedulerEventProcessLoop.post(JobSubmitted)<br>=&gt; dagSchedulerEventProcessLoop.doOnReceive(case JobSubmitted())<br>=&gt; dagScheduler.handleJobSubmitted()<br>=&gt; finalStage = newStage()<br>=&gt;   mapOutputTracker.registerShuffle(shuffleId, rdd.partitions.size)<br>=&gt; dagScheduler.submitStage()<br>=&gt;   missingStages = dagScheduler.getMissingParentStages()<br>=&gt; dagScheduler.subMissingTasks(readyStage)</p>
 <p>// add tasks to the taskScheduler<br>=&gt; taskScheduler.submitTasks(new TaskSet(tasks))<br>=&gt; schedulableBuilder(fifo or fair).addTaskSetManager(taskSet)</p>
-<p>// send tasks<br>=&gt; sparkDeploySchedulerBackend.reviveOffers()<br>=&gt; driverActor ! ReviveOffers<br>=&gt; sparkDeploySchedulerBackend.makeOffers()<br>=&gt; sparkDeploySchedulerBackend.launchTasks()<br>=&gt; foreach task<br> CoarseGrainedExecutorBackend(executorId) ! LaunchTask(serializedTask)</p>
+<p>// send tasks<br>=&gt; CoarseGrainedSchedulerBackend.reviveOffers()<br>=&gt; driverActor ! ReviveOffers<br>=&gt; CoarseGrainedSchedulerBackend.makeOffers()<br>=&gt; CoarseGrainedSchedulerBackend.launchTasks()<br>//之间有通信<br>=&gt; foreach task<br> CoarseGrainedExecutorBackend(executorId) ! LaunchTask(serializedTask)</p>
 </blockquote>
 <p><strong>解释一下最后的分配Task</strong><br>sparkDeploySchedulerBackend接收到taskSet后，会通过自带的DriverActor将serialized tasks发送到调度器指定的worker node上的CoarseGrainedExecutorBackend Actor上。</p>
 <p>Worker 端接收到 tasks 后，执行如下操作</p>
