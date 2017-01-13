@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2017-01-05T13:50:02.000Z</updated>
+  <updated>2017-01-13T08:52:48.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -13,6 +13,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[用owncloud搭建你自己的云]]></title>
+    <link href="http://kzx1025.github.io/2017/01/11/owncloud/"/>
+    <id>http://kzx1025.github.io/2017/01/11/owncloud/</id>
+    <published>2017-01-11T12:20:00.000Z</published>
+    <updated>2017-01-13T08:52:48.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="what_is_owncloud">what is owncloud</h2><p>ownCloud是一个开源免费的云端文件储存分享平台，它支持包括网页、PC客户端、移动App在内的所有终端使用。<br>为何要搭私人网盘服务？<br>如今很多网盘一个一个倒下，用U盘存储服务风险较大，而且很不方便。我曾经买过很多U盘，但有一天我发现，我买它们有什么意义呢？它们很可爱，但它们可爱的时间总是很短暂。一个月内，它们必然卷带着资料消失地一干二净。<br>所以自己动手吧，丰衣足食。我不是鼓励大家有小农经济的思想，而是寻求一种“这些都在我掌控之中”的感觉。而且要知道，其实很多富人都会在自己后院里种点蔬菜什么的，我想大概是一个道理。</p>
+<h2 id="你要怎么做">你要怎么做</h2><h3 id="硬件设施">硬件设施</h3><p>你可以选择购买物理服务器，也可以购买靠谱的云服务器。云服务比如阿里云，亚马逊云什么的，租一个月花费也不高，而且可以顺便搭建自己的VPN服务。我自己是在物理服务器上搭的，因为我手里掌控着实验室楼下的几台服务器，平时跑跑实验，但大部分时间他们都是空闲的，想想有点浪费资源。虽然之前在上面搭过一些小服务，但是我还可以利用的一个有效资源就是内网。在内网中传输文件众所周知是极其迅速的，这也是我想在实验室服务器上搭云盘的根本原因。之前我和实验室同学要是传递一些文件的话，如果通过第三方服务比如QQ就会很慢，通过U盘又会很麻烦。当然通过scp命令是可以通过内网的，但是windows系统的话便无能为力。所以这个云盘的其中一个重要作用就是文件中转站，同学共享一个大型文件，其他人都可以很快下载。</p>
+<h3 id="软件配置">软件配置</h3><p>当然服务器得是Linux系统了，这是前提条件，以下配置内容适用于centos发行版。还有服务器需要安装apache tomcat服务。<br>第一步，安装必要的php扩展。<strong>sudo yum install php-mysql php-json php-xml php-mbstring php-zip php-gd curl php-curl php-pdo</strong><br>第二步，为owncloud配置mysql数据库。当然也可以不配，我就没有配，如果不用mysql数据库的话，owncloud会采用默认的SQLite。<br>第三步，下载安装owncloud包。centos可以直接通过yum自动安装：<strong>sudo yum install owncloud</strong>,一般会带着两个依赖包，一共三个软件包。<br>第四步，安装之后，owncloud的网页文件会存储在<strong>/var/www/html/owncloud</strong>文件夹里，配置文件在<strong>/etc/httpd/conf.d</strong>文件夹内。这时候启动http服务，<strong>sudo service httpd start</strong>,在浏览器访问ip/owncloud，会看到这个界面：<img src="/img/owncloud1.jpg" alt="">,但当你注册新用户的时候会出现一系列权限问题。<br>第五步：解决权限问题，这个我在网上搜了很多，但都无效。可能是解决方法跟不上新版本的原因，后来发现，首页有个链接指向如何配置权限的官方文档，<br><a href="https://doc.owncloud.org/server/latest/admin_manual/installation/installation_wizard.html" target="_blank" rel="external">权限配置链接</a>。运行以下脚本就可以：<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span></span><br><span class="line">ocpath=<span class="string">'/var/www/owncloud'</span></span><br><span class="line">htuser=<span class="string">'www-data'</span></span><br><span class="line">htgroup=<span class="string">'www-data'</span></span><br><span class="line">rootuser=<span class="string">'root'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">"Creating possible missing Directories\n"</span></span><br><span class="line">mkdir -p <span class="variable">$ocpath</span>/data</span><br><span class="line">mkdir -p <span class="variable">$ocpath</span>/assets</span><br><span class="line">mkdir -p <span class="variable">$ocpath</span>/updater</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">"chmod Files and Directories\n"</span></span><br><span class="line">find <span class="variable">$&#123;ocpath&#125;</span>/ -type f -print0 | xargs -<span class="number">0</span> chmod <span class="number">0640</span></span><br><span class="line">find <span class="variable">$&#123;ocpath&#125;</span>/ -type d -print0 | xargs -<span class="number">0</span> chmod <span class="number">0750</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">"chown Directories\n"</span></span><br><span class="line">chown -R <span class="variable">$&#123;rootuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/</span><br><span class="line">chown -R <span class="variable">$&#123;htuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/apps/</span><br><span class="line">chown -R <span class="variable">$&#123;htuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/assets/</span><br><span class="line">chown -R <span class="variable">$&#123;htuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/config/</span><br><span class="line">chown -R <span class="variable">$&#123;htuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/data/</span><br><span class="line">chown -R <span class="variable">$&#123;htuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/themes/</span><br><span class="line">chown -R <span class="variable">$&#123;htuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/updater/</span><br><span class="line"></span><br><span class="line">chmod +x <span class="variable">$&#123;ocpath&#125;</span>/occ</span><br><span class="line"></span><br><span class="line"><span class="built_in">printf</span> <span class="string">"chmod/chown .htaccess\n"</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="operator">-f</span> <span class="variable">$&#123;ocpath&#125;</span>/.htaccess ]</span><br><span class="line"> <span class="keyword">then</span></span><br><span class="line">  chmod <span class="number">0644</span> <span class="variable">$&#123;ocpath&#125;</span>/.htaccess</span><br><span class="line">  chown <span class="variable">$&#123;rootuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/.htaccess</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="operator">-f</span> <span class="variable">$&#123;ocpath&#125;</span>/data/.htaccess ]</span><br><span class="line"> <span class="keyword">then</span></span><br><span class="line">  chmod <span class="number">0644</span> <span class="variable">$&#123;ocpath&#125;</span>/data/.htaccess</span><br><span class="line">  chown <span class="variable">$&#123;rootuser&#125;</span>:<span class="variable">$&#123;htgroup&#125;</span> <span class="variable">$&#123;ocpath&#125;</span>/data/.htaccess</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="效果">效果</h3><p>首页显示：<br><img src="/img/owncloud2.jpg" alt=""></p>
+<p>下载速度：<br><img src="/img/owncloud3.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="what_is_owncloud">what is owncloud</h2><p>ownCloud是一个开源免费的云端文件储存分享平台，它支持包括网页、PC客户端、移动App在内的所有终端使用。<br>为何要搭私人网盘服务？<br>如今很多网盘一个一个倒下，用U]]>
+    </summary>
+    
+      <category term="配置" scheme="http://kzx1025.github.io/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[从源码看Spark的Job执行]]></title>
@@ -83,7 +103,7 @@
     <link href="http://kzx1025.github.io/2016/12/14/life/"/>
     <id>http://kzx1025.github.io/2016/12/14/life/</id>
     <published>2016-12-14T12:20:00.000Z</published>
-    <updated>2017-01-09T08:40:23.000Z</updated>
+    <updated>2017-01-13T07:56:16.000Z</updated>
     <content type="html"><![CDATA[<p>lab杨和paper明对我拿吹风机吹脚这件事似乎抱有一定成见，我想说的是吹脚并不是因为我脚板底有毛，而是上面有水，如此一说这个行为看上去就很合理。毕竟吹风机是用来把水吹干，而不是吹掉毛发的，所以不会仅局限于头部，我想往后我还会将它应用于更多的地方。--2016.12.14</p>
 <p>Leetcode的hard难度不愧为hard难度哈，虽然有思路但终究是不能通过全部test，操蛋得很。忍不住看看讨论区大神们的做法：我刚才在写什么?? forget it。 --2016.12.16</p>
 <p>不定时会发现朋友圈部分人发着一段一段“青春伤感文学”的文字，我姑且这么称呼它的原因是它大多时候包含但不仅限于这几个元素：情爱，酒，民谣，怀念。我作为严肃文学的“爱好者”，并不是想要把异己拿出来批判一番，但是总是感觉这种文字看似说了一大段，但意味不明，它仿佛要表达很多，但多的又不知道想表达什么。我估摸着大概就是写给自己看的，既然是自己看我也便提不出什么要求，但还是会夹带些许好奇，这些好奇我倘若是都放在技术问题上，我想自己还会有更多的进步。 --2016.12.17</p>
@@ -92,6 +112,7 @@
 <p>窦唯和译乐队合作的新专《间听监》发了，赶紧试听了一下。采样了很多国产谍战电影的台词原声，有部分粉丝很不理解为什么窦会突然关注起谍战和阴谋论的元素，说好的成仙呢。其实，窦在音乐上一直是先锋的，也可以理解带有些许成仙的元素，但窦在作曲背景上一直是紧紧和当今世界发生的事联系起来的，包括之前殃金咒的创作是源于都在报纸上看到一条河中因工业污染漂了很多死猪的新闻，天宫图的背景中国天宫一号发射，这样一看，会发现窦在骨子里越来越像中国古代的文人。这样的人在现代可真算得上罕见了哈哈。  --2016.12.26</p>
 <p>今晚我和朋友看了大烂片《长城》。我之前曾许下承诺不去影院看7分以下的电影，这是我破的第二次戒，第一次是去看了6.9分的《美人鱼》，算是临界破戒。这次《长城》只有4.9分，我还是去看了，其中有三个原因，一是我看过张艺谋关于长城的采访，我对其诚恳的态度较有好感；二是他拍得《活着》在我心中有很高的地位，私以为超过《霸王别姬》；三是和朋友有个习惯吃完饭之后就是看电影，他直接推荐了此片。这三个原因中三最为重要，秉着这三种原因我顺利地看完了它，弊病的确挺多，前部分太过刻意卖弄中国元素，让我有种回到2018奥运会开幕式的错觉；服装过于花哨；人物刻画太过匆忙，完全被剧情捆死。不过其实也没那么不堪，特效很足，一部好莱坞流水线似的作品，剧情中规中矩，就是对中国文化的表现太过刻意，倘若是这样露骨地表达，外国人想必也不会感兴趣。仔细一想，的确很多事倘若去隐忍克制地表达，往往能突出更多的美感。当然这只局限于本身美好的事物，丑陋的人或事就算犹抱琵琶半遮面，其他人也想把露出的那半边脸也遮上吧。  --2016.12.31</p>
 <p>若是把三观正不正当成衡量一部电影好坏的标准，那很多电影史上的佳片都会被这个标准拖下水。《沉默的羔羊》、《黑社会》这些电影可都没有宣扬世俗意义上的真善美，在我看来，三观的正与否是一部分观众的自尊心驱使去判定的，他们过于想用自己的精神利益和“政治正确”来禁锢导演的价值观，这是徒劳的。电影和导演可都没有义务去普及什么是好的三观，你若想把电影当作艺术去看，就不用想着把它变成宣传语，大字报。  --2017.01.03</p>
+<p>他这个人是极度自恋的，这源于他内心的极度自卑。我们都在矛盾中去寻求生存，但是谁又能做到这么极致呢？这是常人难以臻至的境界。鲜明与出众的魅力也由此诞生。  --2017.01.13</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>lab杨和paper明对我拿吹风机吹脚这件事似乎抱有一定成见，我想说的是吹脚并不是因为我脚板底有毛，而是上面有水，如此一说这个行为看上去就很合理。毕竟吹风机是用来把水吹干，而不是吹掉毛发的，所以不会仅局限于头部，我想往后我还会将它应用于更多的地方。--2016.12.14<]]>
