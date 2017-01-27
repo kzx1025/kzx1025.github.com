@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Stay simple, stay naive]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://kzx1025.github.io/"/>
-  <updated>2017-01-13T08:52:48.000Z</updated>
+  <updated>2017-01-27T07:25:02.000Z</updated>
   <id>http://kzx1025.github.io/</id>
   
   <author>
@@ -13,6 +13,25 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[宣城很大，也很小]]></title>
+    <link href="http://kzx1025.github.io/2017/01/27/new-year/"/>
+    <id>http://kzx1025.github.io/2017/01/27/new-year/</id>
+    <published>2017-01-27T08:00:00.000Z</published>
+    <updated>2017-01-27T07:25:02.000Z</updated>
+    <content type="html"><![CDATA[<p>我抽空查了一下，宣城的面积有一万两千多平方公里。的确在全国中算不上大的城市，但也算不上小的。</p>
+<p>顺便很多朋友的本命年即将来临，我在这里预祝大家鸡年大吉吧，还有春节玉快，活家欢落！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>我抽空查了一下，宣城的面积有一万两千多平方公里。的确在全国中算不上大的城市，但也算不上小的。</p>
+<p>顺便很多朋友的本命年即将来临，我在这里预祝大家鸡年大吉吧，还有春节玉快，活家欢落！</p>
+]]>
+    </summary>
+    
+      <category term="扯淡学" scheme="http://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[用owncloud搭建你自己的云]]></title>
@@ -74,7 +93,7 @@
     <link href="http://kzx1025.github.io/2016/12/14/life/"/>
     <id>http://kzx1025.github.io/2016/12/14/life/</id>
     <published>2016-12-14T12:20:00.000Z</published>
-    <updated>2017-01-27T07:18:44.000Z</updated>
+    <updated>2017-01-27T07:23:59.000Z</updated>
     <content type="html"><![CDATA[<p>lab杨和paper明对我拿吹风机吹脚这件事似乎抱有一定成见，我想说的是吹脚并不是因为我脚板底有毛，而是上面有水，如此一说这个行为看上去就很合理。毕竟吹风机是用来把水吹干，而不是吹掉毛发的，所以不会仅局限于头部，我想往后我还会将它应用于更多的地方。--2016.12.14</p>
 <p>Leetcode的hard难度不愧为hard难度哈，虽然有思路但终究是不能通过全部test，操蛋得很。忍不住看看讨论区大神们的做法：我刚才在写什么?? forget it。 --2016.12.16</p>
 <p>不定时会发现朋友圈部分人发着一段一段“青春伤感文学”的文字，我姑且这么称呼它的原因是它大多时候包含但不仅限于这几个元素：情爱，酒，民谣，怀念。我作为严肃文学的“爱好者”，并不是想要把异己拿出来批判一番，但是总是感觉这种文字看似说了一大段，但意味不明，它仿佛要表达很多，但多的又不知道想表达什么。我估摸着大概就是写给自己看的，既然是自己看我也便提不出什么要求，但还是会夹带些许好奇，这些好奇我倘若是都放在技术问题上，我想自己还会有更多的进步。 --2016.12.17</p>
@@ -103,7 +122,7 @@
     <link href="http://kzx1025.github.io/2016/12/10/backtrack/"/>
     <id>http://kzx1025.github.io/2016/12/10/backtrack/</id>
     <published>2016-12-10T13:20:00.000Z</published>
-    <updated>2017-01-27T07:21:44.000Z</updated>
+    <updated>2017-01-27T07:24:00.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。<a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="external">该题地址</a>，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。</p>
 <h2 id="介绍一下它">介绍一下它</h2><h3 id="概念">概念</h3><p>回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
 <p>回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。(许多复杂的，规模较大的问题都可以使用回溯法)</p>
@@ -440,25 +459,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>之前也曾试图在网页写博客，但由于觉得博客网站形式大过实际意义就没怎么更新过。<br>不过偶然的机会我发现，形式往往可以给我更多的动力或者动机去写东西。<br>而且开始意识到写东西是真的可以带来乐趣的，我不想有一些想法过上一段时间就在我脑中死去，我得想办法把它记录下来。<br]]>
-    </summary>
-    
-      <category term="扯淡学" scheme="http://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[宣城很大，也很小]]></title>
-    <link href="http://kzx1025.github.io/2016/01/27/new-year/"/>
-    <id>http://kzx1025.github.io/2016/01/27/new-year/</id>
-    <published>2016-01-27T08:00:00.000Z</published>
-    <updated>2017-01-27T07:23:45.000Z</updated>
-    <content type="html"><![CDATA[<p>我抽空查了一下，宣城的面积有一万两千多平方公里。的确在全国中算不上大的城市，但也算不上小的。</p>
-<p>顺便很多朋友的本命年即将来临，我在这里预祝大家鸡年大吉吧，还有春节玉快，活家欢落！</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>我抽空查了一下，宣城的面积有一万两千多平方公里。的确在全国中算不上大的城市，但也算不上小的。</p>
-<p>顺便很多朋友的本命年即将来临，我在这里预祝大家鸡年大吉吧，还有春节玉快，活家欢落！</p>
-]]>
     </summary>
     
       <category term="扯淡学" scheme="http://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
