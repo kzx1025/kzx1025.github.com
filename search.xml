@@ -10,6 +10,13 @@
 
     
     <entry>
+      <title><![CDATA[关于Java的内存模型]]></title>
+      <url>%2F2017%2F03%2F19%2Fjava-memory-model%2F</url>
+      <content type="text"><![CDATA[GC内存模型//TODO 并发内存模型]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[用owncloud搭建你自己的云]]></title>
       <url>%2F2017%2F01%2F11%2Fowncloud%2F</url>
       <content type="text"><![CDATA[what is owncloudownCloud是一个开源免费的云端文件储存分享平台，它支持包括网页、PC客户端、移动App在内的所有终端使用。为何要搭私人网盘服务？如今很多网盘一个一个倒下，用U盘存储服务风险较大，而且很不方便。我曾经买过很多U盘，但有一天我发现，我买它们有什么意义呢？它们很可爱，但它们可爱的时间总是很短暂。一个月内，它们必然卷带着资料消失地一干二净。所以自己动手吧，丰衣足食。我不是鼓励大家有小农经济的思想，而是寻求一种“这些都在我掌控之中”的感觉。而且要知道，其实很多富人都会在自己后院里种点蔬菜什么的，我想大概是一个道理。 你要怎么做硬件设施你可以选择购买物理服务器，也可以购买靠谱的云服务器。云服务比如阿里云，亚马逊云什么的，租一个月花费也不高，而且可以顺便搭建自己的VPN服务。我自己是在物理服务器上搭的，因为我手里掌控着实验室楼下的几台服务器，平时跑跑实验，但大部分时间他们都是空闲的，想想有点浪费资源。虽然之前在上面搭过一些小服务，但是我还可以利用的一个有效资源就是内网。在内网中传输文件众所周知是极其迅速的，这也是我想在实验室服务器上搭云盘的根本原因。之前我和实验室同学要是传递一些文件的话，如果通过第三方服务比如QQ就会很慢，通过U盘又会很麻烦。当然通过scp命令是可以通过内网的，但是windows系统的话便无能为力。所以这个云盘的其中一个重要作用就是文件中转站，同学共享一个大型文件，其他人都可以很快下载。 软件配置当然服务器得是Linux系统了，这是前提条件，以下配置内容适用于centos发行版。还有服务器需要安装apache tomcat服务。第一步，安装必要的php扩展。sudo yum install php-mysql php-json php-xml php-mbstring php-zip php-gd curl php-curl php-pdo第二步，为owncloud配置mysql数据库。当然也可以不配，我就没有配，如果不用mysql数据库的话，owncloud会采用默认的SQLite。第三步，下载安装owncloud包。centos可以直接通过yum自动安装：sudo yum install owncloud,一般会带着两个依赖包，一共三个软件包。第四步，安装之后，owncloud的网页文件会存储在/var/www/html/owncloud文件夹里，配置文件在/etc/httpd/conf.d文件夹内。这时候启动http服务，sudo service httpd start,在浏览器访问ip/owncloud，会看到这个界面：,但当你注册新用户的时候会出现一系列权限问题。第五步：解决权限问题，这个我在网上搜了很多，但都无效。可能是解决方法跟不上新版本的原因，后来发现，首页有个链接指向如何配置权限的官方文档，权限配置链接。运行以下脚本就可以：12345678910111213141516171819202122232425262728293031323334353637#!/bin/bashocpath='/var/www/owncloud'htuser='www-data'htgroup='www-data'rootuser='root'printf "Creating possible missing Directories\n"mkdir -p $ocpath/datamkdir -p $ocpath/assetsmkdir -p $ocpath/updaterprintf "chmod Files and Directories\n"find $&#123;ocpath&#125;/ -type f -print0 | xargs -0 chmod 0640find $&#123;ocpath&#125;/ -type d -print0 | xargs -0 chmod 0750printf "chown Directories\n"chown -R $&#123;rootuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/chown -R $&#123;htuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/apps/chown -R $&#123;htuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/assets/chown -R $&#123;htuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/config/chown -R $&#123;htuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/data/chown -R $&#123;htuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/themes/chown -R $&#123;htuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/updater/chmod +x $&#123;ocpath&#125;/occprintf "chmod/chown .htaccess\n"if [ -f $&#123;ocpath&#125;/.htaccess ] then chmod 0644 $&#123;ocpath&#125;/.htaccess chown $&#123;rootuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/.htaccessfiif [ -f $&#123;ocpath&#125;/data/.htaccess ] then chmod 0644 $&#123;ocpath&#125;/data/.htaccess chown $&#123;rootuser&#125;:$&#123;htgroup&#125; $&#123;ocpath&#125;/data/.htaccessfi 效果首页显示： 下载速度：]]></content>
@@ -97,13 +104,6 @@
       <title><![CDATA[重写博客]]></title>
       <url>%2F2016%2F08%2F08%2Ffirst%2F</url>
       <content type="text"><![CDATA[之前也曾试图在网页写博客，但由于觉得博客网站形式大过实际意义就没怎么更新过。不过偶然的机会我发现，形式往往可以给我更多的动力或者动机去写东西。而且开始意识到写东西是真的可以带来乐趣的，我不想有一些想法过上一段时间就在我脑中死去，我得想办法把它记录下来。而这是一个很不错的办法。我不会只写技术内容，也会写一些心中所想和灵感，即使不能全部“刻录”下来，能写点总比不写好嘛。你说是吧。]]></content>
-    </entry>
-
-    
-    <entry>
-      <title><![CDATA[关于Java的内存模型]]></title>
-      <url>%2F2016%2F03%2F19%2Fjava-memory-model%2F</url>
-      <content type="text"><![CDATA[GC内存模型//TODO 并发内存模型]]></content>
     </entry>
 
     
