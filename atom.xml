@@ -451,4 +451,23 @@
     
   </entry>
   
+  <entry>
+    <title><![CDATA[关于Java的内存模型]]></title>
+    <link href="https://kzx1025.github.io/2016/03/19/java-memory-model/"/>
+    <id>https://kzx1025.github.io/2016/03/19/java-memory-model/</id>
+    <published>2016-03-19T13:20:00.000Z</published>
+    <updated>2017-03-19T12:12:48.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="GC内存模型">GC内存模型</h2><p>//TODO</p>
+<h2 id="并发内存模型">并发内存模型</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="GC内存模型">GC内存模型</h2><p>//TODO</p>
+<h2 id="并发内存模型">并发内存模型</h2>]]>
+    </summary>
+    
+      <category term="Java" scheme="https://kzx1025.github.io/tags/Java/"/>
+    
+      <category term="内存" scheme="https://kzx1025.github.io/tags/%E5%86%85%E5%AD%98/"/>
+    
+  </entry>
+  
 </feed>
