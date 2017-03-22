@@ -27,6 +27,9 @@
 
 
 
+
+
+
   
   
   <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
@@ -103,11 +106,11 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post"},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: '8147681',
+      userId: '0',
       author: '博主'
     },
     algolia: {
@@ -136,14 +139,18 @@
   
 
 
+
+
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-90054603-1', 'auto');
   ga('send', 'pageview');
 </script>
+
+
 
 
 
@@ -158,31 +165,35 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
+  <div class="container sidebar-position-left 
    page-home 
  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">IceKe Blog</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IceKe Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay simple, stay naive</p>
+      
   </div>
-  <p class="site-subtitle">Stay simple, stay naive</p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -233,32 +244,9 @@
       
 
       
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
-            
-            搜索
-          </a>
-        </li>
-      
     </ul>
   
 
-  
-    <div class="site-search">
-      
-  <div class="popup">
- <span class="search-icon fa fa-search"></span>
- <input type="text" id="local-search-input">
- <div id="local-search-result"></div>
- <span class="popup-btn-close">close</span>
-</div>
-
-
-    </div>
   
 </nav>
 
@@ -283,20 +271,17 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/12/09/fake-work/">
+    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/12/09/fake-work/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="IceKe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="IceKe Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="IceKe Blog" src="">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IceKe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
     </span>
-  </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IceKe Blog">
+    </span>
 
     
       <header class="post-header">
@@ -322,8 +307,10 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-12-09T00:00:59+08:00">
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-09T00:00:59+08:00">
                 2016-12-09
               </time>
             
@@ -339,6 +326,9 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/12/09/fake-work/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/09/fake-work/" itemprop="commentCount"></span>
                 </a>
@@ -347,8 +337,8 @@
           
 
           
-
           
+
           
 
           
@@ -371,8 +361,8 @@
           记得之前的某个时间点听到一个本科的小伙伴在朋友圈发表了关于伪工作的看法。当时他大概意在抨击一些产品经理，大致意思是某些产品觉得自己好像为用户考虑了很多，做了很多，其实说真的还不如什么都不干。我对产品经理是不熟悉的，就在之前实习过的那半年里，也只是跟运维打交道，有趣的是一般产品经理会主动找程序员沟通或者变更需求，那些时间好像我跑得比运维更勤，几次我都认为某些需求定的不太合理，不过幸运的是运维大部分都采纳了。不过根据网络上的舆论情况看，很多猿都会被需求和业务逼得苦不堪言，我也是在实习那段时间领悟到这
           ...
           <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/09/fake-work/#more" rel="contents">
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/12/09/fake-work/#далее" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -389,8 +379,13 @@
       
     </div>
 
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -413,20 +408,17 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/12/02/groupByKey-design/">
+    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/12/02/groupByKey-design/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="IceKe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="IceKe Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="IceKe Blog" src="">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IceKe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
     </span>
-  </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IceKe Blog">
+    </span>
 
     
       <header class="post-header">
@@ -452,8 +444,10 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-12-02T17:20:00+08:00">
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-02T17:20:00+08:00">
                 2016-12-02
               </time>
             
@@ -469,6 +463,9 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/12/02/groupByKey-design/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/02/groupByKey-design/" itemprop="commentCount"></span>
                 </a>
@@ -477,8 +474,8 @@
           
 
           
-
           
+
           
 
           
@@ -503,8 +500,8 @@
 现有的工作与策略上面的前言虽说出了口，却又觉得中二，给人一种鸣人站在所有boss面前嚎着：“这就是我的忍道！”的既视感。但总觉得不得不说出来，而且是认真的那种。尝试嘛，是一个可以让人投入他所有的激情和年华在一件事上的词，此事未必带来较大的意义，但此事在经过尝试给人以信念后，会让他这一生变得更加有趣，甚至是伟大。如果有人将此作为自己做任何事的方法论，那我必然是无比佩服他的。这些话不是我刻意
           ...
           <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/12/02/groupByKey-design/#more" rel="contents">
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/12/02/groupByKey-design/#далее" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -521,8 +518,13 @@
       
     </div>
 
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -545,20 +547,17 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/11/28/super-zombie/">
+    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/11/28/super-zombie/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="IceKe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="IceKe Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="IceKe Blog" src="">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IceKe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
     </span>
-  </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IceKe Blog">
+    </span>
 
     
       <header class="post-header">
@@ -584,8 +583,10 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-28T16:50:00+08:00">
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-28T16:50:00+08:00">
                 2016-11-28
               </time>
             
@@ -601,6 +602,9 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/11/28/super-zombie/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/28/super-zombie/" itemprop="commentCount"></span>
                 </a>
@@ -609,8 +613,8 @@
           
 
           
-
           
+
           
 
           
@@ -636,8 +640,8 @@
 Normal Z
           ...
           <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/11/28/super-zombie/#more" rel="contents">
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/28/super-zombie/#далее" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -654,8 +658,13 @@ Normal Z
       
     </div>
 
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -678,20 +687,17 @@ Normal Z
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/11/26/java-optimize/">
+    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/11/26/java-optimize/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="IceKe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="IceKe Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="IceKe Blog" src="">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IceKe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
     </span>
-  </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IceKe Blog">
+    </span>
 
     
       <header class="post-header">
@@ -717,8 +723,10 @@ Normal Z
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-26T22:20:00+08:00">
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-26T22:20:00+08:00">
                 2016-11-26
               </time>
             
@@ -734,6 +742,9 @@ Normal Z
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/11/26/java-optimize/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/26/java-optimize/" itemprop="commentCount"></span>
                 </a>
@@ -742,8 +753,8 @@ Normal Z
           
 
           
-
           
+
           
 
           
@@ -766,8 +777,8 @@ Normal Z
           一些要交代的我的研究生主题大概可以用两个字概括，那就是搞spark。两个字可能不太严谨，因为读出来感觉就是搞斯帕克。其历经之路也可以高度总结一下: 安装配置spark -&gt; 写常用的spark应用 -&gt; 读spark源码 -&gt; 优化spark。当然优化spark，并不一定要从内核入手，有很多种方案，比如写出优雅的应用程序，调配置参数，官方还给出了一个重要的优化方案，那就是jvm优化，毕竟spark这种分布式系统很多都跑在jvm上。附上spark团队给的优化向导地址，里面有一部分
           ...
           <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/11/26/java-optimize/#more" rel="contents">
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/26/java-optimize/#далее" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -784,8 +795,13 @@ Normal Z
       
     </div>
 
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -808,20 +824,17 @@ Normal Z
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/11/24/hive-mysql/">
+    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2016/11/24/hive-mysql/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="IceKe">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="IceKe Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="IceKe Blog" src="">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IceKe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460">
     </span>
-  </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IceKe Blog">
+    </span>
 
     
       <header class="post-header">
@@ -847,8 +860,10 @@ Normal Z
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Дата создания записи" itemprop="dateCreated datePublished" datetime="2016-11-24T15:39:47+08:00">
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-24T15:39:47+08:00">
                 2016-11-24
               </time>
             
@@ -864,6 +879,9 @@ Normal Z
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/2016/11/24/hive-mysql/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/24/hive-mysql/" itemprop="commentCount"></span>
                 </a>
@@ -872,8 +890,8 @@ Normal Z
           
 
           
-
           
+
           
 
           
@@ -900,8 +918,8 @@ Normal Z
 *查找之前老版本mysql的目录、并且删除老版本mysql的文件和库,运行find / -name mysql，会出现很多关于mysql的目
           ...
           <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/11/24/hive-mysql/#more" rel="contents">
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/11/24/hive-mysql/#далее" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -918,8 +936,13 @@ Normal Z
       
     </div>
 
+    <div>
+      
+    </div>
 
     <footer class="post-footer">
+      
+
       
 
       
@@ -973,21 +996,28 @@ Normal Z
                src="https://avatars0.githubusercontent.com/u/5524471?v=3&s=460"
                alt="IceKe" />
           <p class="site-author-name" itemprop="name">IceKe</p>
-          <p class="site-description motion-element" itemprop="description">stay simple, stay naive</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay simple, stay naive</p>
+          
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">15</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
 
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
           
 
           
+
+          
+            
+            
             <div class="site-state-item site-state-tags">
-              <a href="/tags">
+              <a href="/tags/index.html">
                 <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
@@ -1060,6 +1090,8 @@ Normal Z
 
       
 
+      
+
     </div>
   </aside>
 
@@ -1088,9 +1120,13 @@ Normal Z
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
   </div>
 
   
@@ -1110,6 +1146,7 @@ Normal Z
 
 
   
+
 
 
 
@@ -1173,6 +1210,19 @@ Normal Z
   </script>
 
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
 
 
 
@@ -1182,130 +1232,9 @@ Normal Z
 
 
   
-  
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length == 0) {
-      search_path = "search.xml";
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
 
-    function proceedsearch() {
-      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
-      $('.popup').toggle();
-    }
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-      $.ajax({
-        url: path,
-        dataType: "xml",
-        async: true,
-        success: function( xmlResponse ) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = $( "entry", xmlResponse ).map(function() {
-            return {
-              title: $( "title", this ).text(),
-              content: $("content",this).text(),
-              url: $( "url" , this).text()
-            };
-          }).get();
-          var $input = document.getElementById(search_id);
-          var $resultContent = document.getElementById(content_id);
-          $input.addEventListener('input', function(){
-            var matchcounts = 0;
-            var str='<ul class=\"search-result-list\">';
-            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-            $resultContent.innerHTML = "";
-            if (this.value.trim().length > 1) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var content_index = [];
-                var data_title = data.title.trim().toLowerCase();
-                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
-                var data_url = decodeURIComponent(data.url);
-                var index_title = -1;
-                var index_content = -1;
-                var first_occur = -1;
-                // only match artiles with not empty titles and contents
-                if(data_title != '') {
-                  keywords.forEach(function(keyword, i) {
-                    index_title = data_title.indexOf(keyword);
-                    index_content = data_content.indexOf(keyword);
-                    if( index_title >= 0 || index_content >= 0 ){
-                      isMatch = true;
-                      if (i == 0) {
-                        first_occur = index_content;
-                      }
-                    }
 
-                  });
-                }
-                // show search results
-                if (isMatch) {
-                  matchcounts += 1;
-                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
-                  var content = data.content.trim().replace(/<[^>]+>/g,"");
-                  if (first_occur >= 0) {
-                    // cut out 100 characters
-                    var start = first_occur - 20;
-                    var end = first_occur + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if(start == 0){
-                      end = 50;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    var match_content = content.substring(start, end);
-                    // highlight all keywords
-                    keywords.forEach(function(keyword){
-                      var regS = new RegExp(keyword, "gi");
-                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
-                    });
 
-                    str += "<p class=\"search-result\">" + match_content +"...</p>"
-                  }
-                  str += "</li>";
-                }
-              })};
-            str += "</ul>";
-            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
-            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
-            $resultContent.innerHTML = str;
-          });
-          proceedsearch();
-        }
-      });}
-
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched == false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(function(e){
-      $('.popup').hide();
-      $(".popoverlay").remove();
-      $('body').css('overflow', '');
-    });
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-  </script>
 
 
   
@@ -1315,7 +1244,6 @@ Normal Z
   
 
   
-
 
 </body>
 </html>
