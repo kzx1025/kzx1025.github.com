@@ -51,11 +51,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[关于Java的内存模型]]></title>
-    <link href="https://kzx1025.github.io/2017/03/24/java-memory-model/"/>
-    <id>https://kzx1025.github.io/2017/03/24/java-memory-model/</id>
-    <published>2017-03-24T13:20:00.000Z</published>
-    <updated>2017-04-06T09:54:17.000Z</updated>
+    <title><![CDATA[关于Java内存模型]]></title>
+    <link href="https://kzx1025.github.io/2017/04/06/java-memory-model/"/>
+    <id>https://kzx1025.github.io/2017/04/06/java-memory-model/</id>
+    <published>2017-04-06T13:20:00.000Z</published>
+    <updated>2017-04-06T09:56:15.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前面的话">前面的话</h2><p>一般说到Java的内存模型，我一般会理解为两方面，GC的内存模型和并发的内存模型，不过GC方面更像是描述JVM的结构。</p>
 <h2 id="GC内存模型">GC内存模型</h2><p>这一块在《论jvm的优化》那篇中有做简单的介绍，不过那篇主要说了GC的算法和策略。</p>
 <p>1、程序计数器<br>每一个线程都有一个单独的程序计数器，用于记录下一条执行的指令。各线程之间的程序计数器不会相互干扰。果当前线程正在执行一个Java方法，则程序计数器记录正在执行的Java字节码地址。</p>
@@ -93,8 +93,9 @@
 <li>程序顺序规则：一个线程中的每个操作，happens-before于该线程中任意的后续操作。</li>
 <li>监视器锁规则：对一个锁的解锁操作，happens-before于随后对这个锁的加锁操作。</li>
 <li>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</li>
-<li>传递性规则：如果 A happens-before B，且 B happens-before C，那么A happens-before C。<br>注意：两个操作之间具有happens-before关系，并不意味前一个操作必须要在后一个操作之前执行！仅仅要求前一个操作的执行结果，对于后一个操作是可见的，且前一个操作按顺序排在后一个操作之前</li>
+<li>传递性规则：如果 A happens-before B，且 B happens-before C，那么A happens-before C。</li>
 </ol>
+<p><strong>注意</strong>：两个操作之间具有happens-before关系，并不意味前一个操作必须要在后一个操作之前执行！仅仅要求前一个操作的执行结果，对于后一个操作是可见的，且前一个操作按顺序排在后一个操作之前</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h2 id="前面的话">前面的话</h2><p>一般说到Java的内存模型，我一般会理解为两方面，GC的内存模型和并发的内存模型，不过GC方面更像是描述JVM的结构。</p>
@@ -104,6 +105,21 @@
       <category term="Java" scheme="https://kzx1025.github.io/tags/Java/"/>
     
       <category term="内存" scheme="https://kzx1025.github.io/tags/%E5%86%85%E5%AD%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[凭郑一]]></title>
+    <link href="https://kzx1025.github.io/2017/04/05/zheng-first/"/>
+    <id>https://kzx1025.github.io/2017/04/05/zheng-first/</id>
+    <published>2017-04-04T16:20:00.000Z</published>
+    <updated>2017-04-06T09:57:27.000Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="扯淡学" scheme="https://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
     
   </entry>
   
