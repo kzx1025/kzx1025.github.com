@@ -89,19 +89,25 @@
 
 
 
-<meta name="description" content="GC内存模型//TODO
-并发内存模型">
+<meta name="description" content="前面的话一般说到Java的内存模型，我一般会理解为两方面，GC的内存模型和并发的内存模型，不过GC方面更像是描述JVM的结构。
+GC内存模型这一块在《论jvm的优化》那篇中有做简单的介绍，不过那篇主要说了GC的算法和策略。
+1、程序计数器
+每一个线程都有一个单独的程序计数器，用于记录下一条执行的指令。各线程之间的程序计数器不会相互干扰。果当前线程正在执行一个Java方法，则程序计数器记录正在执行的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于Java的内存模型">
-<meta property="og:url" content="https://kzx1025.github.io/2017/03/19/java-memory-model/index.html">
+<meta property="og:url" content="https://kzx1025.github.io/2017/03/24/java-memory-model/index.html">
 <meta property="og:site_name" content="IceKe Blog">
-<meta property="og:description" content="GC内存模型//TODO
-并发内存模型">
-<meta property="og:updated_time" content="2017-03-19T12:15:10.000Z">
+<meta property="og:description" content="前面的话一般说到Java的内存模型，我一般会理解为两方面，GC的内存模型和并发的内存模型，不过GC方面更像是描述JVM的结构。
+GC内存模型这一块在《论jvm的优化》那篇中有做简单的介绍，不过那篇主要说了GC的算法和策略。
+1、程序计数器
+每一个线程都有一个单独的程序计数器，用于记录下一条执行的指令。各线程之间的程序计数器不会相互干扰。果当前线程正在执行一个Java方法，则程序计数器记录正在执行的">
+<meta property="og:updated_time" content="2017-04-06T08:19:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于Java的内存模型">
-<meta name="twitter:description" content="GC内存模型//TODO
-并发内存模型">
+<meta name="twitter:description" content="前面的话一般说到Java的内存模型，我一般会理解为两方面，GC的内存模型和并发的内存模型，不过GC方面更像是描述JVM的结构。
+GC内存模型这一块在《论jvm的优化》那篇中有做简单的介绍，不过那篇主要说了GC的算法和策略。
+1、程序计数器
+每一个线程都有一个单独的程序计数器，用于记录下一条执行的指令。各线程之间的程序计数器不会相互干扰。果当前线程正在执行一个Java方法，则程序计数器记录正在执行的">
 
 
 
@@ -129,7 +135,7 @@
 
 
 
-  <link rel="canonical" href="https://kzx1025.github.io/2017/03/19/java-memory-model/"/>
+  <link rel="canonical" href="https://kzx1025.github.io/2017/03/24/java-memory-model/"/>
 
 
 
@@ -273,7 +279,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2017/03/19/java-memory-model/">
+    <link itemprop="mainEntityOfPage" href="https://kzx1025.github.io/2017/03/24/java-memory-model/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="IceKe">
@@ -309,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T21:20:00+08:00">
-                2017-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T21:20:00+08:00">
+                2017-03-24
               </time>
             
 
@@ -328,8 +334,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/19/java-memory-model/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/19/java-memory-model/" itemprop="commentCount"></span>
+                <a href="/2017/03/24/java-memory-model/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/24/java-memory-model/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -355,7 +361,13 @@
       
 
       
-        <h2 id="GC内存模型">GC内存模型</h2><p>//TODO</p>
+        <h2 id="前面的话">前面的话</h2><p>一般说到Java的内存模型，我一般会理解为两方面，GC的内存模型和并发的内存模型，不过GC方面更像是描述JVM的结构。</p>
+<h2 id="GC内存模型">GC内存模型</h2><p>这一块在《论jvm的优化》那篇中有做简单的介绍，不过那篇主要说了GC的算法和策略。</p>
+<p>1、程序计数器</p>
+<p>每一个线程都有一个单独的程序计数器，用于记录下一条执行的指令。各线程之间的程序计数器不会相互干扰。果当前线程正在执行一个Java方法，则程序计数器记录正在执行的Java字节码地址。</p>
+<p>2、Java虚拟机栈</p>
+<p>虚拟机栈也是Java线程私有的内存空间。它存放堆中对象的引用；方法调用的堆栈信息，和方法中的局部变量，参与方法的调用和返回。</p>
+<p>JVM允许Java栈的大小是固定或者动态的，这里有两种异常是跟栈空间有关联的：<strong>StackOverflowError</strong>和<strong>OutOfMemoryError</strong>，如果在线程计算的过程中，请求的栈深度大于最大可用的深度，则会抛出StackOverflowError，这一般会发生在递归调用中</p>
 <h2 id="并发内存模型">并发内存模型</h2>
       
     </div>
@@ -427,10 +439,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/19/java-memory-model/"
+        <div class="ds-share flat" data-thread-key="2017/03/24/java-memory-model/"
      data-title="关于Java的内存模型"
      data-content=""
-     data-url="https://kzx1025.github.io/2017/03/19/java-memory-model/">
+     data-url="https://kzx1025.github.io/2017/03/24/java-memory-model/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -457,8 +469,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/19/java-memory-model/"
-           data-title="关于Java的内存模型" data-url="https://kzx1025.github.io/2017/03/19/java-memory-model/">
+      <div class="ds-thread" data-thread-key="2017/03/24/java-memory-model/"
+           data-title="关于Java的内存模型" data-url="https://kzx1025.github.io/2017/03/24/java-memory-model/">
       </div>
     
   </div>
@@ -600,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GC内存模型"><span class="nav-number">1.</span> <span class="nav-text">GC内存模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发内存模型"><span class="nav-number">2.</span> <span class="nav-text">并发内存模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前面的话"><span class="nav-number">1.</span> <span class="nav-text">前面的话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GC内存模型"><span class="nav-number">2.</span> <span class="nav-text">GC内存模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发内存模型"><span class="nav-number">3.</span> <span class="nav-text">并发内存模型</span></a></li></ol></div>
             
 
           </div>
