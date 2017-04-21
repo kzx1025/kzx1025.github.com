@@ -53,6 +53,25 @@
   </entry>
   
   <entry>
+    <title><![CDATA[借鉴RocketMq的持久化设计简易消息队列]]></title>
+    <link href="https://kzx1025.github.io/2017/04/21/rocketmq/"/>
+    <id>https://kzx1025.github.io/2017/04/21/rocketmq/</id>
+    <published>2017-04-21T08:40:47.000Z</published>
+    <updated>2017-04-21T09:27:58.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="背景">背景</h2><p>//TODO</p>
+<h2 id="RocketMq的持久化">RocketMq的持久化</h2><h2 id="设计">设计</h2>]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="背景">背景</h2><p>//TODO</p>
+<h2 id="RocketMq的持久化">RocketMq的持久化</h2><h2 id="设计">设计</h2>]]>
+    </summary>
+    
+      <category term="RocketMq" scheme="https://kzx1025.github.io/tags/RocketMq/"/>
+    
+      <category term="中间件" scheme="https://kzx1025.github.io/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[关于Java内存模型]]></title>
     <link href="https://kzx1025.github.io/2017/04/06/java-memory-model/"/>
     <id>https://kzx1025.github.io/2017/04/06/java-memory-model/</id>
