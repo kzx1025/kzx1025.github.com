@@ -10,13 +10,6 @@
 
     
     <entry>
-      <title><![CDATA[在阿里实习的一个半月]]></title>
-      <url>%2F2017%2F08%2F30%2Falibaba-intern%2F</url>
-      <content type="text"><![CDATA[一个机会今年年初我是万万没有在今年六月底去阿里巴巴实习的打算的， 我做了什么一部分感受]]></content>
-    </entry>
-
-    
-    <entry>
       <title><![CDATA[借鉴RocketMq的持久化设计简易消息队列]]></title>
       <url>%2F2017%2F04%2F21%2Frocketmq%2F</url>
       <content type="text"><![CDATA[背景//TODO RocketMq的持久化设计]]></content>

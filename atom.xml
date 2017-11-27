@@ -58,23 +58,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[在阿里实习的一个半月]]></title>
-    <link href="https://kzx1025.github.io/2017/08/30/alibaba-intern/"/>
-    <id>https://kzx1025.github.io/2017/08/30/alibaba-intern/</id>
-    <published>2017-08-30T07:39:47.000Z</published>
-    <updated>2017-09-06T02:26:41.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="一个机会">一个机会</h2><p>今年年初我是万万没有在今年六月底去阿里巴巴实习的打算的，</p>
-<h2 id="我做了什么">我做了什么</h2><h2 id="一部分感受">一部分感受</h2>]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="一个机会">一个机会</h2><p>今年年初我是万万没有在今年六月底去阿里巴巴实习的打算的，</p>
-<h2 id="我做了什么">我做了什么</h2><h2 id="一部分感受">一部分感受</h2>]]>
-    </summary>
-    
-      <category term="扯淡学" scheme="https://kzx1025.github.io/tags/%E6%89%AF%E6%B7%A1%E5%AD%A6/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[借鉴RocketMq的持久化设计简易消息队列]]></title>
     <link href="https://kzx1025.github.io/2017/04/21/rocketmq/"/>
     <id>https://kzx1025.github.io/2017/04/21/rocketmq/</id>
@@ -233,7 +216,7 @@
     <link href="https://kzx1025.github.io/2016/12/10/backtrack/"/>
     <id>https://kzx1025.github.io/2016/12/10/backtrack/</id>
     <published>2016-12-10T13:20:00.000Z</published>
-    <updated>2017-01-27T07:24:00.000Z</updated>
+    <updated>2017-11-27T12:38:18.000Z</updated>
     <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>起先刷到LeetCode中的一题Combination Sum，题目要求是求一组数中如何搭配求和能得到目标值，也就是求目标值的所有解。<a href="https://leetcode.com/problems/combination-sum/" target="_blank" rel="external">该题地址</a>，其实就是在一个组合中求所有解集，所以都可以归为一种算法原型，也就是要说的回溯法。</p>
 <h2 id="介绍一下它">介绍一下它</h2><h3 id="概念">概念</h3><p>回溯算法实际上一个类似枚举的搜索尝试过程，主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。</p>
 <p>回溯法是一种选优搜索法，按选优条件向前搜索，以达到目标。但当探索到某一步时，发现原先选择并不优或达不到目标，就退回一步重新选择，这种走不通就退回再走的技术为回溯法，而满足回溯条件的某个状态的点称为“回溯点”。(许多复杂的，规模较大的问题都可以使用回溯法)</p>
