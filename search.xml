@@ -10,6 +10,13 @@
 
     
     <entry>
+      <title><![CDATA[基于异常计数的一种高可用任务回调]]></title>
+      <url>%2F2019%2F06%2F24%2Fbest-callback%2F</url>
+      <content type="text"><![CDATA[//TODO]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[借鉴RocketMq的持久化设计简易消息队列]]></title>
       <url>%2F2017%2F04%2F21%2Frocketmq%2F</url>
       <content type="text"><![CDATA[背景//TODO RocketMq的持久化设计]]></content>
