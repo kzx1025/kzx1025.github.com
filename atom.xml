@@ -65,9 +65,9 @@
     <link href="https://kzx1025.github.io/2019/06/24/best-callback/"/>
     <id>https://kzx1025.github.io/2019/06/24/best-callback/</id>
     <published>2019-06-23T16:00:59.000Z</published>
-    <updated>2019-06-25T16:52:10.000Z</updated>
+    <updated>2019-06-25T16:55:33.000Z</updated>
     <content type="html"><![CDATA[<pre><code>一实践是检验真理的唯一标准
-</code></pre><h2 id="背景">背景</h2><p>现在我们架构底层有一个分布式的任务调度和执行系统，当任务运行到中间态or终态时，会将任务的状态回调给依赖的外部服务。系统中存在一个任务回调线程池，多个<strong>TaskCallbackThread</strong>分别捞取回调任务数据(TaskCallback)，接着处理任务的回调流程；回调外部服务(<strong>CallbackTarget</strong>)成功后则正常移除回调任务，若回调失败，则生成重复回调任务，扔到重试回调线程池，由多个<strong>RetryCallbackThread</strong>去处理，默认有5个重试回调线程(数量较少)，若回调仍然失败，则继续排队由重试回调线程处理。</p>
+</code></pre><h2 id="背景">背景</h2><p>我们架构底层有一个分布式的任务调度和执行系统，名叫Alisa, 女神之意。当下发到上面的任务运行到中间态or终态时，会将任务的状态回调给依赖的外部服务。系统中存在一个任务回调线程池，多个<strong>TaskCallbackThread</strong>分别捞取回调任务数据(TaskCallback)，接着处理任务的回调流程；回调外部服务(<strong>CallbackTarget</strong>)成功后则正常移除回调任务，若回调失败，则生成重复回调任务，扔到重试回调线程池，由多个<strong>RetryCallbackThread</strong>去处理，默认有5个重试回调线程(数量较少)，若回调仍然失败，则继续排队由重试回调线程处理。</p>
 <h2 id="问题出现">问题出现</h2><p>由于现在任务回调线程一次会批量捞取上百个回调任务进行回调，并且频繁捞取。回调任务集合中包含要回调给各种CallbackTarget，其中包括调度，数据集成，ide等。<br>问题是: 若某一段时间某个外部CallbackTarget出现问题(rt高等原因),一次回调时间过长(ex.超过3s)。这时候回调任务线程处理该类回调任务时，会严重阻塞后面正常CallbackTarget的回调任务。且后续还有异常服务的回调任务，导致延迟越来越严重,整体回调会严重变慢。比如2019年5月31日和2018年的某一天，由于数据同步服务的异常，导致其他服务运行任务状态回写受到阻塞，任务状态更新变慢，最后用户的反馈就是任务一直等待资源或者一直在运行中。<br>任务回调的队列模拟图:<br><img src="/img/callback.jpg" alt=""></p>
 <h2 id="服务分组回调方案">服务分组回调方案</h2><p>针对每个CallbackTarget的回调任务划分到不同线程组去处理回调, 不同CallbackTarget的回调任务不会互相影响。<br>缺点:<br>(1)回调的CallbackTarget多了很不利于扩展; (2)不同的CallbackTarget所需要回调的任务量不同，会造成部分线程较长时间空闲，部分线程任务量很大。负载不均衡。</p>
 <h2 id="基于服务异常感知的任务回调方案">基于服务异常感知的任务回调方案</h2><p>提出一种自适应地感知异常CallbackTarget，提前将异常CallbackTarget的回调任务做特殊处理，不阻塞正常CallbackTarget的任务回调。<br><img src="/img/callback_new.jpg" alt=""><br>(1)数据结构:<br>在内存中维护一张异常服务映射表，key为外部url，value存储(abnormal_num，abnormal_time)，abnormal_num为超时任务出现次数，abnormal_time为超时任务出现的最近时间。[callbackUrl, (abnormal_num，abnormal_time)].</p>
@@ -79,7 +79,7 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<pre><code>一实践是检验真理的唯一标准
-</code></pre><h2 id="背景">背景</h2><p>现在我们架构底层有一个分布式的任务调度和执行系统，当任务运行到中间态or终态时，会将任务的状态回调给依赖的外部服务。系统中存在一个任务回调线程池，多个<stro]]>
+</code></pre><h2 id="背景">背景</h2><p>我们架构底层有一个分布式的任务调度和执行系统，名叫Alisa, 女神之意。当下发到上面的任务运行到中间态or终态时，会将任务的状态回调给依赖的外部服务。系统中存]]>
     </summary>
     
       <category term="分布式系统" scheme="https://kzx1025.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/"/>
